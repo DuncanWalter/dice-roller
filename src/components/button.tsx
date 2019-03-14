@@ -55,7 +55,7 @@ const button = style({
   borderRadius: 4,
   color: '#ffffff',
   cursor: 'pointer',
-  padding: '4px 8px 4px',
+  padding: '8px 12px 8px',
   margin: '0 12px 0',
   transition: '0.2s',
 })
