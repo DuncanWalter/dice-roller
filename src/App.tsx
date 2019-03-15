@@ -12,7 +12,9 @@ import {
   PanelDivider,
   alignCenter,
 } from './components'
-import { style, keyframes, fontFace } from 'typestyle'
+import { style, keyframes } from 'typestyle'
+
+import texture from './texture.png'
 
 export function App() {
   const dice = useSelector(getDice)
@@ -214,7 +216,7 @@ const app = style({
   backgroundColor: '#a1a5a8',
   padding: '24px',
   boxSizing: 'border-box',
-  backgroundImage: 'url(./texture.png)',
+  backgroundImage: `url(${texture})`,
 })
 
 const wrap = style({

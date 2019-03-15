@@ -9,9 +9,11 @@ function clean(...entries) {
   return entries.filter(entry => !!entry && entry !== true)
 }
 
-module.exports = (function createConfig(production, target) {
-  const sourcePath = join(process.cwd(), target, 'src')
-  const outPath = join(process.cwd(), target, 'build')
+module.exports = env => createConfig(env == 'prod')
+
+function createConfig(production) {
+  const sourcePath = join(process.cwd(), '.', 'src')
+  const outPath = join(process.cwd(), '.', 'build')
   return {
     mode: production ? 'production' : 'development',
     context: sourcePath,
@@ -38,8 +40,8 @@ module.exports = (function createConfig(production, target) {
               loader: require.resolve('babel-loader'),
               options: {
                 presets: clean(
-                  production || require('@babel/preset-react'),
-                  production || require('@babel/preset-typescript'),
+                  require('@babel/preset-react'),
+                  require('@babel/preset-typescript'),
                   clean(require('@babel/preset-env'), {
                     modules: false,
                     targets: 'last 1 version, not dead, > 1% in US',
@@ -47,7 +49,7 @@ module.exports = (function createConfig(production, target) {
                 ),
               },
             },
-            production && require.resolve('ts-loader'),
+            // production && require.resolve('ts-loader'),
           ),
         },
         {
@@ -68,6 +70,10 @@ module.exports = (function createConfig(production, target) {
               },
             },
           ],
+        },
+        {
+          test: /\.(png|svg|jpg|gif|ttf|woff|woff2|eot|otf)$/,
+          use: [require.resolve('file-loader')],
         },
       ],
     },
@@ -100,4 +106,4 @@ module.exports = (function createConfig(production, target) {
     },
     devtool: production ? 'hidden-source-map' : 'cheap-module-eval-source-map',
   }
-})(false, '.')
+}

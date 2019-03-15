@@ -8,6 +8,7 @@
     "tslint": "tslint -c tslint.json \"src/**/*.{ts,tsx}\"",
     "prettier": "pretty-quick --staged",
     "test": "jest",
+    "build": "webpack --config webpack.config.js --env prod",
     "dev": "webpack-dev-server --hot --inline"
   },
   "keywords": [],
