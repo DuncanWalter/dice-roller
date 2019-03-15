@@ -12,7 +12,7 @@ import {
   PanelDivider,
   alignCenter,
 } from './components'
-import { style, keyframes } from 'typestyle'
+import { style, keyframes, fontFace } from 'typestyle'
 
 export function App() {
   const dice = useSelector(getDice)
@@ -63,12 +63,12 @@ export function App() {
             <div
               key={faces}
               className={joinNames(dieStyle, justifyCenter, alignCenter, {
-                [red]: faces == 4,
-                [blue]: faces == 6,
-                [gray]: faces == 8,
-                [green]: faces == 10,
-                [orange]: faces == 12,
-                [purple]: faces == 20,
+                [muteRed]: faces == 4,
+                [muteGreen]: faces == 6,
+                [muteBlue]: faces == 8,
+                [brightRed]: faces == 10,
+                [brightGreen]: faces == 12,
+                [brightBlue]: faces == 20,
               })}
               onClick={() => actions.addDieRoll(faces)}
               onDoubleClick={event => event.preventDefault()}
@@ -88,12 +88,12 @@ export function App() {
                 justifyCenter,
                 alignCenter,
                 {
-                  [red]: die.faces == 4,
-                  [blue]: die.faces == 6,
-                  [gray]: die.faces == 8,
-                  [green]: die.faces == 10,
-                  [orange]: die.faces == 12,
-                  [purple]: die.faces == 20,
+                  [muteRed]: die.faces == 4,
+                  [muteGreen]: die.faces == 6,
+                  [muteBlue]: die.faces == 8,
+                  [brightRed]: die.faces == 10,
+                  [brightGreen]: die.faces == 12,
+                  [brightBlue]: die.faces == 20,
                 },
               )}
               onClick={() => actions.rerollDie(index, die)}
@@ -104,8 +104,7 @@ export function App() {
         </PanelContent>
         <PanelDivider />
         <PanelContent className={justifyCenter}>
-          <Text title>TOTAL:</Text>
-          <Text title>{`${total}`}</Text>
+          <Text title>{`TOTAL: ${total}`}</Text>
         </PanelContent>
       </Panel>
     </div>
@@ -154,63 +153,65 @@ const boldButton = style({
     '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
 })
 
-const orange = style({
-  backgroundColor: 'rgb(201, 134, 34)',
+const muteRed = style({
+  backgroundColor: 'rgb(88, 24, 69)',
   $nest: {
     '&:hover': {
-      backgroundColor: 'rgba(201, 134, 34, 0.8)',
+      backgroundColor: 'rgba(88, 24, 69, 0.8)',
     },
   },
 })
 
-const green = style({
-  backgroundColor: 'rgb(34, 201, 134)',
+const muteGreen = style({
+  backgroundColor: 'rgb(144, 12, 63)',
   $nest: {
     '&:hover': {
-      backgroundColor: 'rgba(34, 201, 134, 0.8)',
+      backgroundColor: 'rgba(144, 12, 63, 0.8)',
     },
   },
 })
 
-const blue = style({
-  backgroundColor: 'rgb(34, 134, 201)',
+const muteBlue = style({
+  backgroundColor: 'rgb(199, 0, 57)',
   $nest: {
     '&:hover': {
-      backgroundColor: 'rgba(34, 134, 201, 0.8)',
+      backgroundColor: 'rgba(199, 0, 57, 0.8)',
     },
   },
 })
 
-const gray = style({
-  backgroundColor: 'rgb(134, 134, 187)',
+const brightRed = style({
+  backgroundColor: 'rgb(255, 87, 51)',
   $nest: {
     '&:hover': {
-      backgroundColor: 'rgba(134, 134, 187, 0.8)',
+      backgroundColor: 'rgba(255, 87, 51, 0.8)',
     },
   },
 })
 
-const red = style({
-  backgroundColor: 'rgb(213, 85, 43)',
+const brightGreen = style({
+  backgroundColor: 'rgb(255, 195, 0)',
   $nest: {
     '&:hover': {
-      backgroundColor: 'rgba(213, 85, 43, 0.8)',
+      backgroundColor: 'rgba(255, 195, 0, 0.8)',
     },
   },
 })
 
-const purple = style({
-  backgroundColor: 'rgb(167, 45, 187)',
+const brightBlue = style({
+  backgroundColor: 'rgb(218, 247, 166)',
   $nest: {
     '&:hover': {
-      backgroundColor: 'rgba(167, 45, 187, 0.8)',
+      backgroundColor: 'rgba(218, 247, 166, 0.8)',
     },
   },
 })
 
 const app = style({
+  position: 'relative',
+  fontFamily: 'sans-serif',
   minHeight: '100vh',
-  backgroundColor: '#dddde4',
+  backgroundColor: '#a1a5a8',
   padding: '24px',
   boxSizing: 'border-box',
   backgroundImage: 'url(./texture.png)',

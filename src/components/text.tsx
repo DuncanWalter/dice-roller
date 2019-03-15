@@ -44,7 +44,6 @@ export function Text(props: TextProps) {
 
 const text = style({
   borderRadius: 4,
-  fontFamily: 'sans-serif',
   transition: '0.2s',
   margin: '0 12px 0',
 })
