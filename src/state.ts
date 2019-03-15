@@ -23,7 +23,12 @@ export function rerollDie(index: number, die: Die) {
   return diceActions.update(index, { ...die, roll })
 }
 
+export function incrementDie(index: number, die: Die) {
+  return diceActions.update(index, { ...die, roll: (die.roll % die.faces) + 1 })
+}
+
 export const clearDice = diceActions.clear
+export const removeDie = diceActions.delete
 
 export const getTotal = createSelector([getDice], dice => {
   let sum = 0

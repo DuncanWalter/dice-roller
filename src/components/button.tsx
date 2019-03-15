@@ -58,6 +58,7 @@ const button = style({
   padding: '8px 12px 8px',
   margin: '0 12px 0',
   transition: '0.2s',
+  textAlign: 'center',
 })
 
 const disabled = style({

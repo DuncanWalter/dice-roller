@@ -82,7 +82,9 @@ export function PanelDivider() {
 
 const panel = style({
   borderRadius: 4,
+  display: 'inline-block',
   paddingTop: '24px',
+  margin: '12px',
   backgroundColor: '#ffffff',
   boxShadow: '0 1px 1px 1px rgba(0, 0, 0, 0.18)',
 })
@@ -106,6 +108,9 @@ const flush = style({
   $nest: {
     [`&.${content}`]: {
       padding: '0 0 24px',
+    },
+    [`&.${panel}`]: {
+      margin: '0',
     },
   },
 })

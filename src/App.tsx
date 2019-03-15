@@ -1,6 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment, MouseEvent } from 'react'
 import { useActions, useSelector } from '@dwalter/spider-hook'
-import { addDieRoll, clearDice, rerollDie, getDice, getTotal } from './state'
+import {
+  addDieRoll,
+  clearDice,
+  rerollDie,
+  getDice,
+  getTotal,
+  removeDie,
+  incrementDie,
+} from './state'
 import {
   Panel,
   PanelHeader,
@@ -11,6 +19,8 @@ import {
   Text,
   PanelDivider,
   alignCenter,
+  Tooltip,
+  row,
 } from './components'
 import { style, keyframes } from 'typestyle'
 
@@ -24,6 +34,8 @@ export function App() {
     addDieRoll,
     rerollDie,
     clearDice,
+    removeDie,
+    incrementDie,
   })
 
   useEffect(() => {
@@ -31,6 +43,11 @@ export function App() {
       if (event.key === ' ') {
         actions.clearDice()
         event.preventDefault()
+      }
+      for (let i = 2; i <= 9; i++) {
+        if (event.key == `${i}`) {
+          actions.addDieRoll(i)
+        }
       }
     }
 
@@ -44,7 +61,7 @@ export function App() {
   return (
     <div className={joinNames(app, justifyCenter, alignStart)}>
       <Panel>
-        <PanelHeader text="Dinky Dice Tower">
+        <PanelHeader className={alignCenter} text="Dinky Dice Tower">
           <Button
             danger
             className={boldButton}
@@ -55,11 +72,11 @@ export function App() {
         <PanelContent className={wrap}>
           <Text body>
             Click on a die in the top section to add another die to the roll.
-            Click a rolled die to reroll it. Hit the space bar to clear all
-            dice.
+            Hit the space bar to clear all dice. Click a rolled die to reroll
+            it. Ctrl or cmd click on a rolled die to clear that die. Alt or opt
+            click on a rolled die to increment its value.
           </Text>
         </PanelContent>
-        {/* <PanelDivider /> */}
         <PanelContent className={justifyCenter}>
           {[4, 6, 8, 10, 12, 20].map(faces => (
             <div
@@ -71,6 +88,7 @@ export function App() {
                 [brightRed]: faces == 10,
                 [brightGreen]: faces == 12,
                 [brightBlue]: faces == 20,
+                [deepRed]: faces == 2 || faces % 2 !== 0,
               })}
               onClick={() => actions.addDieRoll(faces)}
               onDoubleClick={event => event.preventDefault()}
@@ -80,37 +98,67 @@ export function App() {
           ))}
         </PanelContent>
         <PanelDivider />
-        <PanelContent className={joinNames(wrap, justifyCenter, alignCenter)}>
-          {dice.map((die, index) => (
-            <div
-              key={index}
-              className={joinNames(
-                dieStyle,
-                animateDie,
-                justifyCenter,
-                alignCenter,
-                {
-                  [muteRed]: die.faces == 4,
-                  [muteGreen]: die.faces == 6,
-                  [muteBlue]: die.faces == 8,
-                  [brightRed]: die.faces == 10,
-                  [brightGreen]: die.faces == 12,
-                  [brightBlue]: die.faces == 20,
-                },
-              )}
-              onClick={() => actions.rerollDie(index, die)}
+        {dice.length > 0 ? (
+          <Fragment>
+            <PanelContent
+              className={joinNames(wrap, justifyCenter, alignCenter)}
             >
-              <Text className={dieText}>{`${die.roll}`}</Text>
-            </div>
-          ))}
-        </PanelContent>
-        <PanelDivider />
+              {dice.map((die, index) => (
+                <div
+                  key={index}
+                  className={joinNames(
+                    dieStyle,
+                    animateDie,
+                    justifyCenter,
+                    alignCenter,
+                    {
+                      [muteRed]: die.faces == 4,
+                      [muteGreen]: die.faces == 6,
+                      [muteBlue]: die.faces == 8,
+                      [brightRed]: die.faces == 10,
+                      [brightGreen]: die.faces == 12,
+                      [brightBlue]: die.faces == 20,
+                      [deepRed]: die.faces == 2 || die.faces % 2 !== 0,
+                    },
+                  )}
+                  onClick={onClickRolledDie(index, die)}
+                >
+                  <Text className={dieText}>{`${die.roll}`}</Text>
+                </div>
+              ))}
+            </PanelContent>
+            <PanelDivider />
+          </Fragment>
+        ) : (
+          undefined
+        )}
         <PanelContent className={justifyCenter}>
           <Text title>{`TOTAL: ${total}`}</Text>
         </PanelContent>
       </Panel>
     </div>
   )
+
+  function onClickRolledDie(
+    index: number,
+    die: { roll: number; faces: number },
+  ) {
+    return (event: MouseEvent) => {
+      if (event.getModifierState('Control')) {
+        actions.removeDie(index)
+        return
+      }
+      if (event.getModifierState('Meta')) {
+        actions.removeDie(index)
+        return
+      }
+      if (event.getModifierState('Alt')) {
+        actions.incrementDie(index, die)
+        return
+      }
+      actions.rerollDie(index, die)
+    }
+  }
 }
 
 const dieStyle = style({
@@ -153,6 +201,15 @@ const boldButton = style({
   fontWeight: 'bold',
   textShadow:
     '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
+})
+
+const deepRed = style({
+  backgroundColor: 'rgb(69, 36, 65)',
+  $nest: {
+    '&:hover': {
+      backgroundColor: 'rgba(88, 24, 69, 0.8)',
+    },
+  },
 })
 
 const muteRed = style({
@@ -214,7 +271,7 @@ const app = style({
   fontFamily: 'sans-serif',
   minHeight: '100vh',
   backgroundColor: '#a1a5a8',
-  padding: '24px',
+  padding: '12px',
   boxSizing: 'border-box',
   backgroundImage: `url(${texture})`,
 })
