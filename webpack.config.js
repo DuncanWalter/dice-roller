@@ -24,7 +24,7 @@ function createConfig(production) {
       path: outPath,
       filename: 'bundle.js',
       chunkFilename: '[id].chunk.js',
-      publicPath: '/',
+      publicPath: './',
     },
     target: 'web',
     resolve: {
