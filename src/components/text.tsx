@@ -46,15 +46,23 @@ const text = style({
   borderRadius: 4,
   transition: '0.2s',
   margin: '0 12px 0',
+  lineHeight: 1.0,
+  $nest: {
+    '& + &': {
+      marginTop: '8px',
+    },
+  },
 })
 
 const body = style({
+  lineHeight: 1.65,
   $nest: {
     [`&.${text}`]: { fontSize: 16 },
   },
 })
 
 const caption = style({
+  lineHeight: 1.35,
   $nest: {
     [`&.${text}`]: { fontSize: 12 },
   },

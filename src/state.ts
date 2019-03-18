@@ -1,5 +1,6 @@
 import { createReducer, arraylike } from '@dwalter/create-reducer'
-import { createSelector } from '@dwalter/spider-hook'
+import { createSelector, tuple } from '@dwalter/spider-hook'
+import { discreteUniformVariance, normal } from './stats'
 
 interface Die {
   faces: number
@@ -37,5 +38,29 @@ export const getTotal = createSelector([getDice], dice => {
   }
   return sum
 })
+
+export const getMaximum = createSelector([getDice], dice => {
+  let max = 0
+  for (let die of dice) {
+    max += die.faces
+  }
+  return max
+})
+
+export const getRollPercentile = createSelector(
+  tuple(getDice, getTotal),
+  (dice, total) => {
+    let variance = 0
+    let mean = 0
+    for (let die of dice) {
+      variance += discreteUniformVariance(die.faces)
+      mean += 0.5 + die.faces / 2
+    }
+    const standardDeviation = Math.sqrt(variance)
+    const zScore = (total - mean) / standardDeviation
+
+    return Math.floor(normal(zScore) * 100)
+  },
+)
 
 export { getDice }

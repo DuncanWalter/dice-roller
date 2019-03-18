@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { useRef } from 'react'
 import { style } from 'typestyle'
 import { useTheme } from './theme'
-import { joinNames, justifyEnd, column } from './styles'
+import { joinNames, justifyEnd, column, alignEnd } from './styles'
 import { Text } from './text'
 import { PanelContent, Panel } from './panel'
 
@@ -32,18 +32,20 @@ export function Tooltip({
   const { tooltip: theme } = useTheme()
   const [active, setActive] = useState(false)
   const container = useRef(null as null | HTMLDivElement)
-  const tooltip = useRef(null as null | HTMLDivElement)
 
   let side
+  let height
   if (container.current && window) {
-    const { left, right } = container.current.getBoundingClientRect()
+    const { left, right, top } = container.current.getBoundingClientRect()
     if (window.innerWidth - right <= size && !(left < size)) {
       side = theme.left
     } else {
       side = theme.right
     }
+    height = window.innerHeight - top
   } else {
     side = theme.right
+    height = 0
   }
 
   return (
@@ -62,14 +64,14 @@ export function Tooltip({
           active && !disabled && theme.active,
           side,
         )}
-        ref={tooltip}
-        style={{ width: `${size}px` }}
+        style={{ width: `${size}px`, height: `${height}px` }}
       >
         <div
           className={joinNames(column, justifyEnd)}
           style={{ maxWidth: `${size}px` }}
         >
-          {extractText(content)}
+          {extractContent(content)}
+          <div style={{ flex: 1 }} />
         </div>
       </div>
       {children}
@@ -77,7 +79,7 @@ export function Tooltip({
   )
 }
 
-function extractText(node: ReactNode) {
+function extractContent(node: ReactNode) {
   if (node && typeof node === 'string') {
     return (
       <Panel flush>
@@ -104,6 +106,7 @@ defaultTooltipTheme.tooltip = style({
   display: 'none',
   position: 'absolute',
   cursor: 'help',
+  top: 0,
   $nest: {
     [`.${defaultTooltipTheme.container} > &.${defaultTooltipTheme.active}`]: {
       display: 'flex !important',
@@ -114,13 +117,11 @@ defaultTooltipTheme.tooltip = style({
 defaultTooltipTheme.left = style({
   right: '100%',
   justifyContent: 'end',
-  top: 0,
 })
 
 defaultTooltipTheme.right = style({
   left: '100%',
   justifyContent: 'start',
-  top: 0,
 })
 
 function noop() {}

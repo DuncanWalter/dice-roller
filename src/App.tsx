@@ -8,6 +8,8 @@ import {
   getTotal,
   removeDie,
   incrementDie,
+  getRollPercentile,
+  getMaximum,
 } from './state'
 import {
   Panel,
@@ -19,11 +21,13 @@ import {
   Text,
   PanelDivider,
   alignCenter,
+  Tooltip,
+  alignStart,
 } from './components'
-import { style, keyframes } from 'typestyle'
+import { style } from 'typestyle'
 
 import texture from './texture.png'
-import { createSpectrum, rgba, cssColor } from './color'
+import { Die } from './Die'
 
 export function App() {
   const dice = useSelector(getDice)
@@ -31,10 +35,7 @@ export function App() {
 
   const actions = useActions({
     addDieRoll,
-    rerollDie,
     clearDice,
-    removeDie,
-    incrementDie,
   })
 
   useEffect(() => {
@@ -56,17 +57,21 @@ export function App() {
       }
     }
 
-    window.addEventListener('keyup', callback)
+    window.addEventListener('keydown', callback)
 
     return () => {
-      window.removeEventListener('keyup', callback)
+      window.removeEventListener('keydown', callback)
     }
   }, [])
+
+  function onClickMasterDie(_: unknown, faces: number) {
+    return () => actions.addDieRoll(faces)
+  }
 
   return (
     <div className={joinNames(app, justifyCenter, alignStart)}>
       <Panel>
-        <PanelHeader className={alignCenter} text="Dinky Dice Tower">
+        <PanelHeader className={alignCenter} text="D & Dice Tower">
           <Button
             danger
             className={boldButton}
@@ -84,60 +89,32 @@ export function App() {
         </PanelContent>
         <PanelContent className={justifyCenter}>
           {[4, 6, 8, 10, 12, 20].map(faces => (
-            <div
-              key={faces}
-              className={joinNames(
-                dieStyle,
-                justifyCenter,
-                alignCenter,
-                diceStyles[faces],
-              )}
-              onClick={() => actions.addDieRoll(faces)}
-              onDoubleClick={event => event.preventDefault()}
-            >
-              <Text className={dieText}>{`${faces}`}</Text>
-            </div>
+            <Die key={faces} faces={faces} onClick={onClickMasterDie} />
           ))}
         </PanelContent>
         <PanelDivider />
-        {dice.length > 0 ? (
-          <Fragment>
-            <PanelContent
-              className={joinNames(wrap, justifyCenter, alignCenter)}
-            >
-              {dice.map((die, index) => (
-                <div
-                  key={index}
-                  className={joinNames(
-                    dieStyle,
-                    animateDie,
-                    justifyCenter,
-                    alignCenter,
-                    diceStyles[die.faces],
-                  )}
-                  onClick={onClickRolledDie(index, die)}
-                >
-                  <Text className={dieText}>{`${die.roll}`}</Text>
-                </div>
-              ))}
-            </PanelContent>
-            <PanelDivider />
-          </Fragment>
-        ) : (
-          undefined
-        )}
+        {dice.length > 0 && <RolledDice />}
         <PanelContent className={justifyCenter}>
-          <Text title>{`TOTAL: ${total}`}</Text>
+          <Tooltip content={<RollStats />}>
+            <Text title>{`TOTAL: ${total}`}</Text>
+          </Tooltip>
         </PanelContent>
       </Panel>
     </div>
   )
+}
 
-  function onClickRolledDie(
-    index: number,
-    die: { roll: number; faces: number },
-  ) {
-    return (event: MouseEvent) => {
+function RolledDice() {
+  const dice = useSelector(getDice)
+
+  const actions = useActions({
+    rerollDie,
+    removeDie,
+    incrementDie,
+  })
+
+  function onClickRolledDie(index: number, faces: number, roll: number) {
+    return (event: MouseEvent): void => {
       if (event.getModifierState('Control')) {
         actions.removeDie(index)
         return
@@ -147,80 +124,45 @@ export function App() {
         return
       }
       if (event.getModifierState('Alt')) {
-        actions.incrementDie(index, die)
+        actions.incrementDie(index, { faces, roll })
         return
       }
-      actions.rerollDie(index, die)
+      actions.rerollDie(index, { faces, roll })
     }
   }
+
+  return (
+    <Fragment>
+      <PanelContent className={joinNames(wrap, justifyCenter, alignCenter)}>
+        {dice.map((die, index) => (
+          <Die
+            key={index}
+            index={index}
+            faces={die.faces}
+            roll={die.roll}
+            onClick={onClickRolledDie}
+          />
+        ))}
+      </PanelContent>
+      <PanelDivider />
+    </Fragment>
+  )
 }
 
-const dieStyle = style({
-  width: '70px',
-  height: '70px',
-  borderRadius: '35px',
-  boxSizing: 'border-box',
-  padding: '0',
-  margin: '12px',
-  cursor: 'pointer',
-  userSelect: 'none',
-  border: 'solid 2px #18181d',
-})
+function RollStats() {
+  const min = useSelector(getDice).length
+  const max = useSelector(getMaximum)
+  const percentile = useSelector(getRollPercentile)
 
-const animateDie = style({
-  $nest: {
-    [`&.${dieStyle}`]: {
-      animationName: keyframes({
-        '0%': { margin: '-35px', opacity: 0 },
-        '100%': { margin: '12px', opacity: 1.0 },
-      }),
-      animationDuration: '0.3s',
-      animationIterationCount: '1',
-    },
-  },
-})
-
-const dieText = style({
-  fontSize: '32px',
-  color: '#f0f2ee',
-  fontWeight: 'bold',
-  textShadow:
-    '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
-})
-
-const boldButton = style({
-  border: 'solid 2px #18181d',
-  boxSizing: 'border-box',
-  color: '#f0f2ee',
-  fontWeight: 'bold',
-  textShadow:
-    '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
-})
-
-const diceSpectrum = createSpectrum([
-  { value: 0, color: rgba(0, 0, 0) },
-  { value: 2, color: rgba(69, 36, 65) },
-  { value: 4, color: rgba(88, 24, 69) },
-  { value: 6, color: rgba(144, 12, 63) },
-  { value: 8, color: rgba(199, 0, 57) },
-  { value: 10, color: rgba(255, 87, 51) },
-  { value: 12, color: rgba(255, 195, 0) },
-  { value: 20, color: rgba(218, 247, 166) },
-])
-
-const diceStyles = [] as string[]
-
-for (let i = 0; i <= 20; i++) {
-  const color = diceSpectrum(i)
-  diceStyles.push(
-    style({
-      backgroundColor: cssColor(color),
-      $nest: {
-        '&:hover': {
-          backgroundColor: cssColor({ ...color, a: 0.8 }),
-        },
-      },
-    }),
+  return (
+    <Panel flush>
+      <PanelContent>
+        <Text body>{`Minimum: ${min}`}</Text>
+        <Text body>{`Maximum: ${max}`}</Text>
+        <Text body>{`Expected: ${(min + max) / 2}`}</Text>
+        <Text body>{`Percentile: ${percentile}`}</Text>
+      </PanelContent>
+    </Panel>
   )
 }
 
@@ -231,7 +173,13 @@ const app = style({
   backgroundColor: '#a1a5a8',
   padding: '12px',
   boxSizing: 'border-box',
-  backgroundImage: `url(${texture})`,
+  background: `repeating-linear-gradient(
+    -55deg,
+    #d1d1d8,
+    #d1d1d8 20px,
+    #d3d3da 20px,
+    #d3d3da 40px
+  )`,
 })
 
 const wrap = style({
@@ -240,7 +188,11 @@ const wrap = style({
   width: '600px',
 })
 
-const alignStart = style({
-  display: 'flex',
-  alignItems: 'start',
+const boldButton = style({
+  border: 'solid 2px #18181d',
+  boxSizing: 'border-box',
+  color: '#f0f2ee',
+  fontWeight: 'bold',
+  textShadow:
+    '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
 })
