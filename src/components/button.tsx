@@ -107,10 +107,10 @@ const secondary = style({
   $nest: {
     [`&.${button}`]: {
       color: '#222299',
-      padding: 8,
       $nest: {
         '&:hover': {
           color: '#5555aa',
+          backgroundColor: 'rgba(221, 221, 245, 0.13)',
         },
       },
     },

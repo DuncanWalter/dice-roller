@@ -19,12 +19,11 @@ import {
   Text,
   PanelDivider,
   alignCenter,
-  Tooltip,
-  row,
 } from './components'
 import { style, keyframes } from 'typestyle'
 
 import texture from './texture.png'
+import { createSpectrum, rgba, cssColor } from './color'
 
 export function App() {
   const dice = useSelector(getDice)
@@ -44,10 +43,16 @@ export function App() {
         actions.clearDice()
         event.preventDefault()
       }
+      if (event.key === '0') {
+        actions.addDieRoll(10)
+      }
       for (let i = 2; i <= 9; i++) {
         if (event.key == `${i}`) {
           actions.addDieRoll(i)
         }
+      }
+      if (event.key == 'Enter') {
+        actions.addDieRoll(20)
       }
     }
 
@@ -81,15 +86,12 @@ export function App() {
           {[4, 6, 8, 10, 12, 20].map(faces => (
             <div
               key={faces}
-              className={joinNames(dieStyle, justifyCenter, alignCenter, {
-                [muteRed]: faces == 4,
-                [muteGreen]: faces == 6,
-                [muteBlue]: faces == 8,
-                [brightRed]: faces == 10,
-                [brightGreen]: faces == 12,
-                [brightBlue]: faces == 20,
-                [deepRed]: faces == 2 || faces % 2 !== 0,
-              })}
+              className={joinNames(
+                dieStyle,
+                justifyCenter,
+                alignCenter,
+                diceStyles[faces],
+              )}
               onClick={() => actions.addDieRoll(faces)}
               onDoubleClick={event => event.preventDefault()}
             >
@@ -111,15 +113,7 @@ export function App() {
                     animateDie,
                     justifyCenter,
                     alignCenter,
-                    {
-                      [muteRed]: die.faces == 4,
-                      [muteGreen]: die.faces == 6,
-                      [muteBlue]: die.faces == 8,
-                      [brightRed]: die.faces == 10,
-                      [brightGreen]: die.faces == 12,
-                      [brightBlue]: die.faces == 20,
-                      [deepRed]: die.faces == 2 || die.faces % 2 !== 0,
-                    },
+                    diceStyles[die.faces],
                   )}
                   onClick={onClickRolledDie(index, die)}
                 >
@@ -203,68 +197,32 @@ const boldButton = style({
     '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
 })
 
-const deepRed = style({
-  backgroundColor: 'rgb(69, 36, 65)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(88, 24, 69, 0.8)',
-    },
-  },
-})
+const diceSpectrum = createSpectrum([
+  { value: 0, color: rgba(0, 0, 0) },
+  { value: 2, color: rgba(69, 36, 65) },
+  { value: 4, color: rgba(88, 24, 69) },
+  { value: 6, color: rgba(144, 12, 63) },
+  { value: 8, color: rgba(199, 0, 57) },
+  { value: 10, color: rgba(255, 87, 51) },
+  { value: 12, color: rgba(255, 195, 0) },
+  { value: 20, color: rgba(218, 247, 166) },
+])
 
-const muteRed = style({
-  backgroundColor: 'rgb(88, 24, 69)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(88, 24, 69, 0.8)',
-    },
-  },
-})
+const diceStyles = [] as string[]
 
-const muteGreen = style({
-  backgroundColor: 'rgb(144, 12, 63)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(144, 12, 63, 0.8)',
-    },
-  },
-})
-
-const muteBlue = style({
-  backgroundColor: 'rgb(199, 0, 57)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(199, 0, 57, 0.8)',
-    },
-  },
-})
-
-const brightRed = style({
-  backgroundColor: 'rgb(255, 87, 51)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(255, 87, 51, 0.8)',
-    },
-  },
-})
-
-const brightGreen = style({
-  backgroundColor: 'rgb(255, 195, 0)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(255, 195, 0, 0.8)',
-    },
-  },
-})
-
-const brightBlue = style({
-  backgroundColor: 'rgb(218, 247, 166)',
-  $nest: {
-    '&:hover': {
-      backgroundColor: 'rgba(218, 247, 166, 0.8)',
-    },
-  },
-})
+for (let i = 0; i <= 20; i++) {
+  const color = diceSpectrum(i)
+  diceStyles.push(
+    style({
+      backgroundColor: cssColor(color),
+      $nest: {
+        '&:hover': {
+          backgroundColor: cssColor({ ...color, a: 0.8 }),
+        },
+      },
+    }),
+  )
+}
 
 const app = style({
   position: 'relative',
