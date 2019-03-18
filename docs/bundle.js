@@ -50,11 +50,11 @@
       return Object.prototype.hasOwnProperty.call(e, t)
     }),
     (n.p = ''),
-    n((n.s = 13))
+    n((n.s = 12))
 })([
   function(e, t, n) {
     'use strict'
-    e.exports = n(7)
+    e.exports = n(6)
   },
   function(e, t, n) {
     'use strict'
@@ -145,7 +145,7 @@
           return e[0] > t[0] ? 1 : -1
         })
       }
-      function k(e) {
+      function w(e) {
         return e
           .map(function(e) {
             var t = e[0],
@@ -160,7 +160,7 @@
           })
           .join(';')
       }
-      function w(e, t) {
+      function k(e, t) {
         return e.indexOf('&') > -1 ? e.replace(l, t) : t + ' ' + e
       }
       function T(e, n, r, o, a) {
@@ -180,7 +180,7 @@
                     : i.push([u.trim(), c]))
             }
             return {
-              styleString: k(x(r)),
+              styleString: w(x(r)),
               nestedStyles: n ? i : x(i),
               isUnique: o,
             }
@@ -202,7 +202,7 @@
             f += (_ = v[0]) + T(d, _, v[1], o, a)
           }
         } else {
-          var g = a ? w(n, a) : n
+          var g = a ? k(n, a) : n
           if (u) {
             p = e.add(new N(u, e.hash, s ? 'u' + (++i).toString(36) : void 0))
             o.push([g, p])
@@ -230,7 +230,7 @@
           var p = d[f],
             h = p[0],
             m = p[1],
-            v = i ? w(h, '.' + t.escape(s)) : h
+            v = i ? k(h, '.' + t.escape(s)) : h
           m.add(new P(v, m.hash, void 0, u))
         }
         return { cache: a, pid: u, id: s }
@@ -476,7 +476,7 @@
         (t.create = function(e, t, n) {
           return new I(e, t, void 0, n)
         })
-    }.call(this, n(12)))
+    }.call(this, n(11)))
   },
   function(e, t, n) {
     'use strict'
@@ -593,10 +593,7 @@ object-assign
           console.error(e)
         }
     })(),
-      (e.exports = n(8))
-  },
-  function(e, t, n) {
-    e.exports = n.p + '1002c4fdf1de89e1fbc6902f6c02f3aa.png'
+      (e.exports = n(7))
   },
   function(e, t, n) {
     'use strict'
@@ -665,30 +662,30 @@ object-assign
         enqueueSetState: function() {},
       },
       x = {}
-    function k(e, t, n) {
+    function w(e, t, n) {
       ;(this.props = e),
         (this.context = t),
         (this.refs = x),
         (this.updater = n || b)
     }
-    function w() {}
+    function k() {}
     function T(e, t, n) {
       ;(this.props = e),
         (this.context = t),
         (this.refs = x),
         (this.updater = n || b)
     }
-    ;(k.prototype.isReactComponent = {}),
-      (k.prototype.setState = function(e, t) {
+    ;(w.prototype.isReactComponent = {}),
+      (w.prototype.setState = function(e, t) {
         'object' != typeof e && 'function' != typeof e && null != e && g('85'),
           this.updater.enqueueSetState(this, e, t, 'setState')
       }),
-      (k.prototype.forceUpdate = function(e) {
+      (w.prototype.forceUpdate = function(e) {
         this.updater.enqueueForceUpdate(this, e, 'forceUpdate')
       }),
-      (w.prototype = k.prototype)
-    var S = (T.prototype = new w())
-    ;(S.constructor = T), r(S, k.prototype), (S.isPureReactComponent = !0)
+      (k.prototype = w.prototype)
+    var S = (T.prototype = new k())
+    ;(S.constructor = T), r(S, w.prototype), (S.isPureReactComponent = !0)
     var _ = { current: null },
       E = { current: null },
       C = Object.prototype.hasOwnProperty,
@@ -888,7 +885,7 @@ object-assign
         createRef: function() {
           return { current: null }
         },
-        Component: k,
+        Component: w,
         PureComponent: T,
         createContext: function(e, t) {
           return (
@@ -1009,7 +1006,7 @@ object-assign
      * LICENSE file in the root directory of this source tree.
      */ var r = n(0),
       i = n(2),
-      o = n(9)
+      o = n(8)
     function a(e) {
       for (
         var t = arguments.length - 1,
@@ -1101,8 +1098,8 @@ object-assign
       g = {},
       b = {},
       x = {},
-      k = null,
       w = null,
+      k = null,
       T = null
     function S(e, t, n) {
       var r = e.type || 'unknown-event'
@@ -1168,7 +1165,7 @@ object-assign
     function O(e, t) {
       var n = e.stateNode
       if (!n) return null
-      var r = k(n)
+      var r = w(n)
       if (!r) return null
       n = r[t]
       e: switch (t) {
@@ -1474,8 +1471,8 @@ object-assign
           ),
         },
       },
-      ke = !1
-    function we(e, t) {
+      we = !1
+    function ke(e, t) {
       switch (e) {
         case 'keyup':
           return -1 !== he.indexOf(t.keyCode)
@@ -1515,7 +1512,7 @@ object-assign
             }
           else
             Se
-              ? we(e, n) && (i = xe.compositionEnd)
+              ? ke(e, n) && (i = xe.compositionEnd)
               : 'keydown' === e &&
                 229 === n.keyCode &&
                 (i = xe.compositionStart)
@@ -1538,16 +1535,16 @@ object-assign
                     case 'compositionend':
                       return Te(t)
                     case 'keypress':
-                      return 32 !== t.which ? null : ((ke = !0), be)
+                      return 32 !== t.which ? null : ((we = !0), be)
                     case 'textInput':
-                      return (e = t.data) === be && ke ? null : e
+                      return (e = t.data) === be && we ? null : e
                     default:
                       return null
                   }
                 })(e, n)
               : (function(e, t) {
                   if (Se)
-                    return 'compositionend' === e || (!me && we(e, t))
+                    return 'compositionend' === e || (!me && ke(e, t))
                       ? ((e = oe()), (ie = re = ne = null), (Se = !1), e)
                       : null
                   switch (e) {
@@ -1578,9 +1575,9 @@ object-assign
       Ce = null,
       Pe = null
     function Ne(e) {
-      if ((e = w(e))) {
+      if ((e = k(e))) {
         'function' != typeof Ee && a('280')
-        var t = k(e.stateNode)
+        var t = w(e.stateNode)
         Ee(e.stateNode, e.type, t)
       }
     }
@@ -1963,11 +1960,11 @@ object-assign
               : null != t.value,
         })
     }
-    function kt(e, t) {
+    function wt(e, t) {
       null != (t = t.checked) && yt(e, 'checked', t, !1)
     }
-    function wt(e, t) {
-      kt(e, t)
+    function kt(e, t) {
+      wt(e, t)
       var n = gt(t.value),
         r = t.type
       if (null != n)
@@ -2691,8 +2688,8 @@ object-assign
           return B((t = e.getPooled(i, t, n, r))), t
         },
       },
-      kn = xn.isInteractiveTopLevelEventType,
-      wn = []
+      wn = xn.isInteractiveTopLevelEventType,
+      kn = []
     function Tn(e) {
       var t = e.targetInst,
         n = t
@@ -2720,12 +2717,12 @@ object-assign
     var Sn = !0
     function _n(e, t) {
       if (!t) return null
-      var n = (kn(e) ? Cn : Pn).bind(null, e)
+      var n = (wn(e) ? Cn : Pn).bind(null, e)
       t.addEventListener(e, n, !1)
     }
     function En(e, t) {
       if (!t) return null
-      var n = (kn(e) ? Cn : Pn).bind(null, e)
+      var n = (wn(e) ? Cn : Pn).bind(null, e)
       t.addEventListener(e, n, !0)
     }
     function Cn(e, t) {
@@ -2739,9 +2736,9 @@ object-assign
             'number' != typeof n.tag ||
             2 === tn(n) ||
             (n = null),
-          wn.length)
+          kn.length)
         ) {
-          var r = wn.pop()
+          var r = kn.pop()
           ;(r.topLevelType = e),
             (r.nativeEvent = t),
             (r.targetInst = n),
@@ -2755,7 +2752,7 @@ object-assign
             (e.nativeEvent = null),
             (e.targetInst = null),
             (e.ancestors.length = 0),
-            10 > wn.length && wn.push(e)
+            10 > kn.length && kn.push(e)
         }
       }
     }
@@ -2987,8 +2984,8 @@ object-assign
         ' ',
       ),
     ),
-      (k = F),
-      (w = j),
+      (w = F),
+      (k = j),
       (T = U),
       N.injectEventPluginsByName({
         SimpleEventPlugin: xn,
@@ -3226,8 +3223,8 @@ object-assign
     var gr = 'function' == typeof setTimeout ? setTimeout : void 0,
       br = 'function' == typeof clearTimeout ? clearTimeout : void 0,
       xr = o.unstable_scheduleCallback,
-      kr = o.unstable_cancelCallback
-    function wr(e) {
+      wr = o.unstable_cancelCallback
+    function kr(e) {
       for (e = e.nextSibling; e && 1 !== e.nodeType && 3 !== e.nodeType; )
         e = e.nextSibling
       return e
@@ -3944,7 +3941,7 @@ object-assign
     function xi(e) {
       return e === vi && a('174'), e
     }
-    function ki(e, t) {
+    function wi(e, t) {
       Cr(bi, t), Cr(gi, e), Cr(yi, vi)
       var n = t.nodeType
       switch (n) {
@@ -3960,7 +3957,7 @@ object-assign
       }
       Er(yi), Cr(yi, t)
     }
-    function wi(e) {
+    function ki(e) {
       Er(yi), Er(gi), Er(bi)
     }
     function Ti(e) {
@@ -4093,7 +4090,7 @@ object-assign
               ;(o = e(o, i.action)), (i = i.next)
             } while (null !== i)
             return (
-              Zt(o, t.memoizedState) || (ko = !0),
+              Zt(o, t.memoizedState) || (wo = !0),
               (t.memoizedState = o),
               t.baseUpdate === n.last && (t.baseState = o),
               [o, r]
@@ -4123,7 +4120,7 @@ object-assign
             (c = c.next)
         } while (null !== c && c !== r)
         s || ((u = l), (i = o)),
-          Zt(o, t.memoizedState) || (ko = !0),
+          Zt(o, t.memoizedState) || (wo = !0),
           (t.memoizedState = o),
           (t.baseUpdate = u),
           (t.baseState = i),
@@ -4379,7 +4376,7 @@ object-assign
         if (t) {
           var n = t
           if (!mo(e, t)) {
-            if (!(t = wr(n)) || !mo(e, t))
+            if (!(t = kr(n)) || !mo(e, t))
               return (e.effectTag |= 2), (po = !1), void (so = e)
             ho(so, n)
           }
@@ -4400,15 +4397,15 @@ object-assign
         5 !== e.tag ||
         ('head' !== t && 'body' !== t && !yr(t, e.memoizedProps))
       )
-        for (t = fo; t; ) ho(e, t), (t = wr(t))
-      return yo(e), (fo = so ? wr(e.stateNode) : null), !0
+        for (t = fo; t; ) ho(e, t), (t = kr(t))
+      return yo(e), (fo = so ? kr(e.stateNode) : null), !0
     }
     function bo() {
       ;(fo = so = null), (po = !1)
     }
     var xo = Be.ReactCurrentOwner,
-      ko = !1
-    function wo(e, t, n, r) {
+      wo = !1
+    function ko(e, t, n, r) {
       t.child = null === e ? mi(t, null, n, r) : hi(t, e.child, n, r)
     }
     function To(e, t, n, r, i) {
@@ -4417,8 +4414,8 @@ object-assign
       return (
         Lo(t, i),
         (r = Yi(e, t, n, r, o, i)),
-        null === e || ko
-          ? ((t.effectTag |= 1), wo(e, t, r, i), t.child)
+        null === e || wo
+          ? ((t.effectTag |= 1), ko(e, t, r, i), t.child)
           : ((t.updateQueue = e.updateQueue),
             (t.effectTag &= -517),
             e.expirationTime <= i && (e.expirationTime = 0),
@@ -4454,7 +4451,7 @@ object-assign
       return null !== e &&
         en(e.memoizedProps, r) &&
         e.ref === t.ref &&
-        ((ko = !1), i < o)
+        ((wo = !1), i < o)
         ? Ro(e, t, o)
         : Co(e, t, n, r, o)
     }
@@ -4469,8 +4466,8 @@ object-assign
         (o = Rr(t, o)),
         Lo(t, i),
         (n = Yi(e, t, n, r, o, i)),
-        null === e || ko
-          ? ((t.effectTag |= 1), wo(e, t, n, i), t.child)
+        null === e || wo
+          ? ((t.effectTag |= 1), ko(e, t, n, i), t.child)
           : ((t.updateQueue = e.updateQueue),
             (t.effectTag &= -517),
             e.expirationTime <= i && (e.expirationTime = 0),
@@ -4599,7 +4596,7 @@ object-assign
         (t.effectTag |= 1),
         null !== e && a
           ? ((t.child = hi(t, e.child, null, o)), (t.child = hi(t, null, l, o)))
-          : wo(e, t, l, o),
+          : ko(e, t, l, o),
         (t.memoizedState = r.state),
         i && Ar(t, n, !0),
         t.child
@@ -4610,7 +4607,7 @@ object-assign
       t.pendingContext
         ? jr(0, t.pendingContext, t.pendingContext !== t.context)
         : t.context && jr(0, t.context, !1),
-        ki(e, t.containerInfo)
+        wi(e, t.containerInfo)
     }
     function Io(e, t, n) {
       var r = t.mode,
@@ -4690,9 +4687,9 @@ object-assign
     function Mo(e, t, n) {
       var r = t.expirationTime
       if (null !== e) {
-        if (e.memoizedProps !== t.pendingProps || Or.current) ko = !0
+        if (e.memoizedProps !== t.pendingProps || Or.current) wo = !0
         else if (r < n) {
-          switch (((ko = !1), t.tag)) {
+          switch (((wo = !1), t.tag)) {
             case 3:
               Oo(t), bo()
               break
@@ -4703,7 +4700,7 @@ object-assign
               Mr(t.type) && Fr(t)
               break
             case 4:
-              ki(t, t.stateNode.containerInfo)
+              wi(t, t.stateNode.containerInfo)
               break
             case 10:
               Fo(t, t.memoizedProps.value)
@@ -4718,7 +4715,7 @@ object-assign
           }
           return Ro(e, t, n)
         }
-      } else ko = !1
+      } else wo = !1
       switch (((t.expirationTime = 0), t.tag)) {
         case 2:
           ;(r = t.elementType),
@@ -4748,7 +4745,7 @@ object-assign
               (i._reactInternalFiber = t),
               ci(t, r, e, n),
               (t = No(null, t, r, !0, o, n))
-          } else (t.tag = 0), wo(null, t, i, n), (t = t.child)
+          } else (t.tag = 0), ko(null, t, i, n), (t = t.child)
           return t
         case 16:
           switch (
@@ -4842,7 +4839,7 @@ object-assign
                   (i = po = !0)),
                 i
                   ? ((t.effectTag |= 2), (t.child = mi(t, null, r, n)))
-                  : (wo(e, t, r, n), bo()),
+                  : (ko(e, t, r, n), bo()),
                 (t = t.child)),
             t
           )
@@ -4860,7 +4857,7 @@ object-assign
             Eo(e, t),
             1 !== n && 1 & t.mode && i.hidden
               ? ((t.expirationTime = t.childExpirationTime = 1), (t = null))
-              : (wo(e, t, l, n), (t = t.child)),
+              : (ko(e, t, l, n), (t = t.child)),
             t
           )
         case 6:
@@ -4869,9 +4866,9 @@ object-assign
           return Io(e, t, n)
         case 4:
           return (
-            ki(t, t.stateNode.containerInfo),
+            wi(t, t.stateNode.containerInfo),
             (r = t.pendingProps),
-            null === e ? (t.child = hi(t, null, r, n)) : wo(e, t, r, n),
+            null === e ? (t.child = hi(t, null, r, n)) : ko(e, t, r, n),
             t.child
           )
         case 11:
@@ -4881,10 +4878,10 @@ object-assign
             To(e, t, r, (i = t.elementType === r ? i : ni(r, i)), n)
           )
         case 7:
-          return wo(e, t, t.pendingProps, n), t.child
+          return ko(e, t, t.pendingProps, n), t.child
         case 8:
         case 12:
-          return wo(e, t, t.pendingProps.children, n), t.child
+          return ko(e, t, t.pendingProps.children, n), t.child
         case 10:
           e: {
             if (
@@ -4955,7 +4952,7 @@ object-assign
                   u = l
                 }
             }
-            wo(e, t, i.children, n), (t = t.child)
+            ko(e, t, i.children, n), (t = t.child)
           }
           return t
         case 9:
@@ -4965,7 +4962,7 @@ object-assign
             Lo(t, n),
             (r = r((i = Wo(i, o.unstable_observedBits)))),
             (t.effectTag |= 1),
-            wo(e, t, r, n),
+            ko(e, t, r, n),
             t.child
           )
         case 14:
@@ -5008,7 +5005,7 @@ object-assign
     function Lo(e, t) {
       ;(zo = e), (Uo = jo = null)
       var n = e.contextDependencies
-      null !== n && n.expirationTime >= t && (ko = !0),
+      null !== n && n.expirationTime >= t && (wo = !0),
         (e.contextDependencies = null)
     }
     function Wo(e, t) {
@@ -5537,7 +5534,7 @@ object-assign
                     'input' === n &&
                       'radio' === i.type &&
                       null != i.name &&
-                      kt(e, i),
+                      wt(e, i),
                     fr(n, r),
                     (r = fr(n, i))
                   for (var o = 0; o < t.length; o += 2) {
@@ -5553,7 +5550,7 @@ object-assign
                   }
                   switch (n) {
                     case 'input':
-                      wt(e, i)
+                      kt(e, i)
                       break
                     case 'textarea':
                       Xn(e, i)
@@ -5657,7 +5654,7 @@ object-assign
         n
       )
     }
-    function ka(e, t, n) {
+    function wa(e, t, n) {
       ;(n = Yo(n)).tag = Ho
       var r = e.type.getDerivedStateFromError
       if ('function' == typeof r) {
@@ -5681,7 +5678,7 @@ object-assign
         n
       )
     }
-    function wa(e) {
+    function ka(e) {
       switch (e.tag) {
         case 1:
           Mr(e.type) && Dr()
@@ -5689,7 +5686,7 @@ object-assign
           return 2048 & t ? ((e.effectTag = (-2049 & t) | 64), e) : null
         case 3:
           return (
-            wi(),
+            ki(),
             zr(),
             0 != (64 & (t = e.effectTag)) && a('285'),
             (e.effectTag = (-2049 & t) | 64),
@@ -5702,7 +5699,7 @@ object-assign
             ? ((e.effectTag = (-2049 & t) | 64), e)
             : null
         case 4:
-          return wi(), null
+          return ki(), null
         case 10:
           return Ao(e), null
         default:
@@ -5735,13 +5732,13 @@ object-assign
               null != n && Dr()
               break
             case 3:
-              wi(), zr()
+              ki(), zr()
               break
             case 5:
               Si(t)
               break
             case 4:
-              wi()
+              ki()
               break
             case 10:
               Ao(t)
@@ -5751,7 +5748,7 @@ object-assign
       ;(Na = null), (Oa = 0), (Ia = -1), (Ra = !1), (Pa = null)
     }
     function La() {
-      null !== ja && kr(ja), null !== Ua && Ua()
+      null !== ja && wr(ja), null !== Ua && Ua()
     }
     function Wa(e) {
       for (;;) {
@@ -5775,7 +5772,7 @@ object-assign
                 Mr(t.type) && Dr()
                 break
               case 3:
-                wi(),
+                ki(),
                   zr(),
                   (u = t.stateNode).pendingContext &&
                     ((u.context = u.pendingContext), (u.pendingContext = null)),
@@ -6014,7 +6011,7 @@ object-assign
               case 12:
                 break
               case 4:
-                wi(), la(t)
+                ki(), la(t)
                 break
               case 10:
                 Ao(t)
@@ -6051,7 +6048,7 @@ object-assign
                 : (n.firstEffect = e),
               (n.lastEffect = e)))
         } else {
-          if (null !== (e = wa(e))) return (e.effectTag &= 1023), e
+          if (null !== (e = ka(e))) return (e.effectTag &= 1023), e
           null !== n &&
             ((n.firstEffect = n.lastEffect = null), (n.effectTag |= 1024))
         }
@@ -6193,7 +6190,7 @@ object-assign
                       ) {
                         ;(u.effectTag |= 2048),
                           (u.expirationTime = l),
-                          Zo(u, (l = ka(u, d, l)))
+                          Zo(u, (l = wa(u, d, l)))
                         break e
                       }
                   }
@@ -6248,7 +6245,7 @@ object-assign
                 (null === Fa || !Fa.has(r)))
             )
               return (
-                Go(n, (e = ka(n, (e = ia(t, e)), 1073741823))),
+                Go(n, (e = wa(n, (e = ia(t, e)), 1073741823))),
                 void Ka(n, 1073741823)
               )
             break
@@ -6387,7 +6384,7 @@ object-assign
           : ((e.pendingCommitExpirationTime = n), (e.finishedWork = t))
     }
     function bl() {
-      return el ? dl : (kl(), (0 !== nl && 1 !== nl) || (vl(), (dl = fl)), dl)
+      return el ? dl : (wl(), (0 !== nl && 1 !== nl) || (vl(), (dl = fl)), dl)
     }
     function xl(e, t) {
       null === e.nextScheduledRoot
@@ -6403,7 +6400,7 @@ object-assign
               ? _l(1073741823, !1)
               : yl(e, t))
     }
-    function kl() {
+    function wl() {
       var e = 0,
         t = null
       if (null !== Ga)
@@ -6438,9 +6435,9 @@ object-assign
         }
       ;(tl = t), (nl = e)
     }
-    var wl = !1
+    var kl = !1
     function Tl() {
-      return !!wl || (!!o.unstable_shouldYield() && (wl = !0))
+      return !!kl || (!!o.unstable_shouldYield() && (kl = !0))
     }
     function Sl() {
       try {
@@ -6455,18 +6452,18 @@ object-assign
         }
         _l(0, !0)
       } finally {
-        wl = !1
+        kl = !1
       }
     }
     function _l(e, t) {
-      if ((kl(), t))
+      if ((wl(), t))
         for (
           vl(), dl = fl;
-          null !== tl && 0 !== nl && e <= nl && !(wl && fl > nl);
+          null !== tl && 0 !== nl && e <= nl && !(kl && fl > nl);
 
         )
-          Cl(tl, nl, fl > nl), kl(), vl(), (dl = fl)
-      else for (; null !== tl && 0 !== nl && e <= nl; ) Cl(tl, nl, !1), kl()
+          Cl(tl, nl, fl > nl), wl(), vl(), (dl = fl)
+      else for (; null !== tl && 0 !== nl && e <= nl; ) Cl(tl, nl, !1), wl()
       if (
         (t && ((Za = 0), (Ja = null)),
         0 !== nl && yl(tl, nl),
@@ -6628,12 +6625,12 @@ object-assign
                     if (256 & u.effectTag && null !== g) {
                       var b = g.memoizedProps,
                         x = g.memoizedState,
-                        k = u.stateNode,
-                        w = k.getSnapshotBeforeUpdate(
+                        w = u.stateNode,
+                        k = w.getSnapshotBeforeUpdate(
                           u.elementType === u.type ? b : ni(u.type, b),
                           x,
                         )
-                      k.__reactInternalSnapshotBeforeUpdate = w
+                      w.__reactInternalSnapshotBeforeUpdate = k
                     }
                     break e
                   case 3:
@@ -7096,7 +7093,7 @@ object-assign
     ;(Ee = function(e, t, n) {
       switch (t) {
         case 'input':
-          if ((wt(e, n), (t = n.name), 'radio' === n.type && null != t)) {
+          if ((kt(e, n), (t = n.name), 'radio' === n.type && null != t)) {
             for (n = e; n.parentNode; ) n = n.parentNode
             for (
               n = n.querySelectorAll(
@@ -7109,7 +7106,7 @@ object-assign
               var r = n[t]
               if (r !== e && r.form === e.form) {
                 var i = F(r)
-                i || a('90'), Ve(r), wt(r, i)
+                i || a('90'), Ve(r), kt(r, i)
               }
             }
           }
@@ -7355,7 +7352,7 @@ object-assign
   },
   function(e, t, n) {
     'use strict'
-    e.exports = n(10)
+    e.exports = n(9)
   },
   function(e, t, n) {
     'use strict'
@@ -7379,7 +7376,7 @@ object-assign
       function c() {
         if (!l) {
           var e = n.expirationTime
-          u ? T() : (u = !0), w(d, e)
+          u ? T() : (u = !0), k(d, e)
         }
       }
       function s() {
@@ -7487,15 +7484,15 @@ object-assign
         'object' == typeof performance &&
         'function' == typeof performance.now
       ) {
-        var k = performance
+        var w = performance
         t.unstable_now = function() {
-          return k.now()
+          return w.now()
         }
       } else
         t.unstable_now = function() {
           return m.now()
         }
-      var w,
+      var k,
         T,
         S,
         _ = null
@@ -7504,7 +7501,7 @@ object-assign
         _ && _._schedMock)
       ) {
         var E = _._schedMock
-        ;(w = E[0]), (T = E[1]), (S = E[2]), (t.unstable_now = E[3])
+        ;(k = E[0]), (T = E[1]), (S = E[2]), (t.unstable_now = E[3])
       } else if (
         'undefined' == typeof window ||
         'function' != typeof MessageChannel
@@ -7518,8 +7515,8 @@ object-assign
                 C = null
               }
           }
-        ;(w = function(e) {
-          null !== C ? setTimeout(w, 0, e) : ((C = e), setTimeout(P, 0, !1))
+        ;(k = function(e) {
+          null !== C ? setTimeout(k, 0, e) : ((C = e), setTimeout(P, 0, !1))
         }),
           (T = function() {
             C = null
@@ -7580,7 +7577,7 @@ object-assign
               O || ((O = !0), F.postMessage(void 0))
           } else R = !1
         }
-        ;(w = function(e, t) {
+        ;(k = function(e, t) {
           ;(N = e),
             (I = t),
             M || 0 > t ? F.postMessage(void 0) : R || ((R = !0), x(A))
@@ -7724,7 +7721,7 @@ object-assign
         (t.unstable_getFirstCallbackNode = function() {
           return n
         })
-    }.call(this, n(11)))
+    }.call(this, n(10)))
   },
   function(e, t) {
     var n
@@ -8155,14 +8152,14 @@ object-assign
         return m(b([this], x))
       },
     })
-    var k = new WeakMap()
-    function w(e) {
+    var w = new WeakMap()
+    function k(e) {
       var t = e.dispatch,
         n = e.slices,
         r = e.wrapReducer
-      if (!k.has(t)) {
+      if (!w.has(t)) {
         var i = new WeakMap()
-        k.set(t, o)
+        w.set(t, o)
       }
       function o(e) {
         return 'function' == typeof e
@@ -8179,7 +8176,7 @@ object-assign
       }
     }
     function T(e, t) {
-      return k.get(e)(t)
+      return w.get(e)(t)
     }
     function S() {
       throw new Error(
@@ -8239,7 +8236,16 @@ object-assign
     function R(e, t) {
       return { sources: e, mapping: t }
     }
-    function M(e) {
+    function M(e, t, n) {
+      return (
+        void 0 === n && (n = !0),
+        R(e, function() {
+          for (var e = [], r = 0; r < arguments.length; r++) e[r] = arguments[r]
+          return I(e, t, void 0, n)
+        })
+      )
+    }
+    function D(e) {
       var t,
         n = C(),
         i = Object(r.useContext)(_),
@@ -8283,7 +8289,7 @@ object-assign
             : n,
         o = e.Component,
         a = C(),
-        l = M(
+        l = D(
           Object(r.useState)(
             a
               ? (function(e, t) {
@@ -8324,10 +8330,14 @@ object-assign
         }),
       )
     })
-    var D = Object.assign,
-      z = Object.create,
-      j = Object.keys
-    function U(e) {
+    var z = Object.assign,
+      j = Object.create,
+      U = Object.keys
+    for (var F = 0, A = [], L = 0; L < 1e3; L++) {
+      var W = Math.exp(-Math.pow((5 * L) / 1e3, 2) / 2) / Math.sqrt(2 * Math.PI)
+      A.push((F += W))
+    }
+    function $(e) {
       for (var t = 1; t < arguments.length; t++) {
         var n = null != arguments[t] ? arguments[t] : {},
           r = Object.keys(n)
@@ -8338,12 +8348,12 @@ object-assign
             }),
           )),
           r.forEach(function(t) {
-            F(e, t, n[t])
+            V(e, t, n[t])
           })
       }
       return e
     }
-    function F(e, t, n) {
+    function V(e, t, n) {
       return (
         t in e
           ? Object.defineProperty(e, t, {
@@ -8356,7 +8366,7 @@ object-assign
         e
       )
     }
-    var A = (function(e, t) {
+    var B = (function(e, t) {
         return (
           (function(e) {
             if (Array.isArray(e)) return e
@@ -8410,11 +8420,11 @@ object-assign
                   (a[e] = function() {
                     for (var t = [], n = 0; n < arguments.length; n++)
                       t[n] = arguments[n]
-                    return D(z(u), { type: r(e), payload: t })
+                    return z(j(u), { type: r(e), payload: t })
                   })
               },
               s = 0,
-              f = j(n);
+              f = U(n);
             s < f.length;
             s++
           )
@@ -8430,7 +8440,7 @@ object-assign
         })(
           'dice',
           [],
-          U(
+          $(
             {},
             {
               add: function(e, t) {
@@ -8465,24 +8475,22 @@ object-assign
         ),
         2,
       ),
-      L = A[0],
-      W = A[1]
-    function $(e) {
+      H = B[0],
+      Q = B[1]
+    function q(e) {
       var t = Math.ceil(Math.random() * e)
-      return W.add({ faces: e, roll: t })
+      return Q.add({ faces: e, roll: t })
     }
-    function V(e, t) {
+    function K(e, t) {
       var n = Math.ceil(Math.random() * t.faces)
-      return W.update(e, U({}, t, { roll: n }))
+      return Q.update(e, $({}, t, { roll: n }))
     }
-    function B(e, t) {
-      return W.update(e, U({}, t, { roll: (t.roll % t.faces) + 1 }))
+    function Y(e, t) {
+      return Q.update(e, $({}, t, { roll: (t.roll % t.faces) + 1 }))
     }
-    var H,
-      Q,
-      q = W.clear,
-      K = W.delete,
-      Y = ((H = function(e) {
+    var X = Q.clear,
+      G = Q.delete,
+      Z = M([H], function(e) {
         var t = 0,
           n = !0,
           r = !1,
@@ -8506,31 +8514,93 @@ object-assign
         }
         return t
       }),
-      void 0 === Q && (Q = !0),
-      R([L], function() {
-        for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t]
-        return I(e, H, void 0, Q)
-      })),
-      X = n(3),
-      G = n.n(X),
-      Z = n(1)
-    function J(e) {
+      J = M([H], function(e) {
+        var t = 0,
+          n = !0,
+          r = !1,
+          i = void 0
+        try {
+          for (
+            var o, a = e[Symbol.iterator]();
+            !(n = (o = a.next()).done);
+            n = !0
+          ) {
+            t += o.value.faces
+          }
+        } catch (e) {
+          ;(r = !0), (i = e)
+        } finally {
+          try {
+            n || null == a.return || a.return()
+          } finally {
+            if (r) throw i
+          }
+        }
+        return t
+      }),
+      ee = M(
+        (function() {
+          for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t]
+          return e
+        })(H, Z),
+        function(e, t) {
+          var n,
+            r = 0,
+            i = 0,
+            o = !0,
+            a = !1,
+            l = void 0
+          try {
+            for (
+              var u, c = e[Symbol.iterator]();
+              !(o = (u = c.next()).done);
+              o = !0
+            ) {
+              var s = u.value
+              ;(r += ((n = s.faces), (Math.pow(n, 2) - 1) / 12)),
+                (i += 0.5 + s.faces / 2)
+            }
+          } catch (e) {
+            ;(a = !0), (l = e)
+          } finally {
+            try {
+              o || null == c.return || c.return()
+            } finally {
+              if (a) throw l
+            }
+          }
+          var f = (t - i) / Math.sqrt(r)
+          return Math.floor(
+            100 *
+              (function e(t) {
+                if (t < 0) return 1 - e(-t)
+                if (t >= 5) return 1
+                var n = Math.floor((1e3 * t) / 5)
+                return 0.5 + (0.5 * A[n]) / F
+              })(f),
+          )
+        },
+      ),
+      te = n(3),
+      ne = n.n(te),
+      re = n(1)
+    function ie(e) {
       var t = {},
         n = ''
       for (var r in e) {
         var i = e[r]
-        if ('$unique' === r) t[Z.IS_UNIQUE] = i
+        if ('$unique' === r) t[re.IS_UNIQUE] = i
         else if ('$nest' === r) {
           var o = i
           for (var a in o) {
             var l = o[a]
-            t[a] = J(l).result
+            t[a] = ie(l).result
           }
         } else '$debugName' === r ? (n = i) : (t[r] = i)
       }
       return { result: t, debugName: n }
     }
-    var ee =
+    var oe =
       'undefined' == typeof requestAnimationFrame
         ? function(e) {
             return setTimeout(e)
@@ -8538,7 +8608,7 @@ object-assign
         : 'undefined' == typeof window
           ? requestAnimationFrame
           : requestAnimationFrame.bind(window)
-    function te() {
+    function ae() {
       for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t]
       for (var n = {}, r = 0, i = e; r < i.length; r++) {
         var o = i[r]
@@ -8547,18 +8617,18 @@ object-assign
             var l = o[a]
             ;(l || 0 === l) &&
               ('$nest' === a && l
-                ? (n[a] = n.$nest ? te(n.$nest, l) : l)
+                ? (n[a] = n.$nest ? ae(n.$nest, l) : l)
                 : -1 !== a.indexOf('&') || 0 === a.indexOf('@media')
-                  ? (n[a] = n[a] ? te(n[a], l) : l)
+                  ? (n[a] = n[a] ? ae(n[a], l) : l)
                   : (n[a] = l))
           }
       }
       return n
     }
-    var ne = function() {
-        return Z.create(void 0, !0)
+    var le = function() {
+        return re.create(void 0, !0)
       },
-      re = (function() {
+      ue = (function() {
         function e(e) {
           var t = e.autoGenerateTag,
             n = this
@@ -8571,7 +8641,7 @@ object-assign
             (this.cssRule = function(e) {
               for (var t = [], r = 1; r < arguments.length; r++)
                 t[r - 1] = arguments[r]
-              var i = J(te.apply(void 0, t)).result
+              var i = ie(ae.apply(void 0, t)).result
               n._freeStyle.registerRule(e, i), n._styleUpdated()
             }),
             (this.forceRenderStyles = function() {
@@ -8607,7 +8677,7 @@ object-assign
               return n._styleUpdated(), o
             }),
             (this.reinit = function() {
-              var e = ne()
+              var e = le()
               ;(n._freeStyle = e),
                 (n._lastFreeStyleChangeId = e.changeId),
                 (n._raw = ''),
@@ -8632,7 +8702,7 @@ object-assign
               }
               return t
             })
-          var r = ne()
+          var r = le()
           ;(this._autoGenerateTag = t),
             (this._freeStyle = r),
             (this._lastFreeStyleChangeId = r.changeId),
@@ -8647,7 +8717,7 @@ object-assign
             var t = this
             this._pending++
             var n = this._pending
-            ee(function() {
+            oe(function() {
               n === t._pending && e()
             })
           }),
@@ -8678,7 +8748,7 @@ object-assign
           }),
           (e.prototype.style = function() {
             var e = this._freeStyle,
-              t = J(te.apply(void 0, arguments)),
+              t = ie(ae.apply(void 0, arguments)),
               n = t.result,
               r = t.debugName,
               i = r ? e.registerStyle(n, r) : e.registerStyle(n)
@@ -8687,17 +8757,17 @@ object-assign
           e
         )
       })(),
-      ie = (n(4), new re({ autoGenerateTag: !0 })),
-      oe = (ie.setStylesTarget,
-      ie.cssRaw,
-      ie.cssRule,
-      ie.forceRenderStyles,
-      ie.fontFace,
-      ie.getStyles,
-      ie.keyframes),
-      ae = (ie.reinit, ie.style)
-    ie.stylesheet
-    function le(e, t, n) {
+      ce = (n(4), new ue({ autoGenerateTag: !0 })),
+      se = (ce.setStylesTarget,
+      ce.cssRaw,
+      ce.cssRule,
+      ce.forceRenderStyles,
+      ce.fontFace,
+      ce.getStyles,
+      ce.keyframes),
+      fe = (ce.reinit, ce.style)
+    ce.stylesheet
+    function de(e, t, n) {
       return (
         e
           .filter(function(e) {
@@ -8711,66 +8781,26 @@ object-assign
           }) || n
       )
     }
-    var ue = ae({ display: 'flex', justifyContent: 'center' }),
-      ce = (ae({ display: 'flex', justifyContent: 'flex-end' }),
-      ae({ display: 'flex', justifyContent: 'space-around' }),
-      ae({ display: 'flex', justifyContent: 'flex-start' }),
-      ae({ display: 'flex', justifyContent: 'space-between' })),
-      se = ae({ display: 'flex', alignItems: 'center' }),
-      fe = (ae({ display: 'flex', alignItems: 'stretch' }),
-      ae({ display: 'flex', alignItems: 'start' }),
-      ae({ display: 'flex', alignItems: 'end' }),
-      ae({ display: 'flex', flexDirection: 'row' }),
-      ae({ display: 'flex', flexDirection: 'column' }),
-      Object(r.createContext)({ button: {}, panel: {}, text: {}, tooltip: {} }))
-    function de() {
-      return Object(r.useContext)(fe)
+    var pe = fe({ display: 'flex', justifyContent: 'center' }),
+      he = fe({ display: 'flex', justifyContent: 'flex-end' }),
+      me = (fe({ display: 'flex', justifyContent: 'space-around' }),
+      fe({ display: 'flex', justifyContent: 'flex-start' }),
+      fe({ display: 'flex', justifyContent: 'space-between' })),
+      ve = fe({ display: 'flex', alignItems: 'center' }),
+      ye = (fe({ display: 'flex', alignItems: 'stretch' }),
+      fe({ display: 'flex', alignItems: 'start' })),
+      ge = (fe({ display: 'flex', alignItems: 'end' }),
+      fe({ display: 'flex', flexDirection: 'row' }),
+      fe({ display: 'flex', flexDirection: 'column' })),
+      be = Object(r.createContext)({
+        button: {},
+        panel: {},
+        text: {},
+        tooltip: {},
+      })
+    function xe() {
+      return Object(r.useContext)(be)
     }
-    function pe(e, t, n) {
-      return (
-        t in e
-          ? Object.defineProperty(e, t, {
-              value: n,
-              enumerable: !0,
-              configurable: !0,
-              writable: !0,
-            })
-          : (e[t] = n),
-        e
-      )
-    }
-    var he = ['body', 'caption', 'display', 'title', 'button']
-    function me(e) {
-      var t,
-        n = de().text,
-        i = le(he, e),
-        o = G()(
-          n.text,
-          e.className,
-          (pe((t = {}), n.display, 'display' === i),
-          pe(t, n.title, 'title' === i),
-          pe(t, n.body, 'body' === i),
-          pe(t, n.caption, 'caption' === i),
-          pe(t, n.button, 'button' === i),
-          t),
-        )
-      return 'title' == i || 'display' == i
-        ? r.createElement('h1', { className: o }, e.children)
-        : r.createElement('p', { className: o }, e.children)
-    }
-    var ve = ae({ borderRadius: 4, transition: '0.2s', margin: '0 12px 0' }),
-      ye = ae({ $nest: pe({}, '&.'.concat(ve), { fontSize: 16 }) }),
-      ge = ae({ $nest: pe({}, '&.'.concat(ve), { fontSize: 12 }) }),
-      be = ae({ $nest: pe({}, '&.'.concat(ve), { fontSize: 88 }) }),
-      xe = ae({ $nest: pe({}, '&.'.concat(ve), { fontSize: 44 }) }),
-      ke = {
-        text: ve,
-        caption: ge,
-        body: ye,
-        button: ae({ $nest: pe({}, '&.'.concat(ve), { fontSize: 20 }) }),
-        title: xe,
-        display: be,
-      }
     function we(e, t, n) {
       return (
         t in e
@@ -8784,87 +8814,51 @@ object-assign
         e
       )
     }
-    var Te = ['primary', 'secondary', 'danger']
-    function Se(e) {
+    var ke = ['body', 'caption', 'display', 'title', 'button']
+    function Te(e) {
       var t,
-        n = e.text,
-        i = e.onClick,
-        o = e.children,
-        a = e.className,
-        l = de().button
-      o &&
-        console.error(
-          'Use the "text" prop of Button instead of passing children',
+        n = xe().text,
+        i = de(ke, e),
+        o = ne()(
+          n.text,
+          e.className,
+          (we((t = {}), n.display, 'display' === i),
+          we(t, n.title, 'title' === i),
+          we(t, n.body, 'body' === i),
+          we(t, n.caption, 'caption' === i),
+          we(t, n.button, 'button' === i),
+          t),
         )
-      var u = le(Te, e, 'secondary')
-      return r.createElement(
-        'div',
-        {
-          onClick: e.disabled ? void 0 : i,
-          className: G()(
-            l.button,
-            a,
-            ((t = {}),
-            we(t, l.primary, 'primary' === u),
-            we(t, l.secondary, 'secondary' === u),
-            we(t, l.danger, 'danger' === u),
-            we(t, l.disabled, e.disabled),
-            t),
-          ),
-        },
-        r.createElement(me, { button: !0 }, n),
-      )
+      return 'title' == i || 'display' == i
+        ? r.createElement('h1', { className: o }, e.children)
+        : r.createElement('p', { className: o }, e.children)
     }
-    var _e,
-      Ee = ae({
+    var Se = fe({
         borderRadius: 4,
-        color: '#ffffff',
-        cursor: 'pointer',
-        padding: '8px 12px 8px',
-        margin: '0 12px 0',
         transition: '0.2s',
-        textAlign: 'center',
+        margin: '0 12px 0',
+        lineHeight: 1,
+        $nest: { '& + &': { marginTop: '8px' } },
       }),
-      Ce = ae({
-        $nest: we({}, '&.'.concat(Ee), {
-          backgroundColor: '#9999a3',
-          color: '#222233',
-          cursor: 'not-allowed',
-          $nest: {
-            '&:hover': { backgroundColor: '#9999a3', color: '#222233' },
-          },
-        }),
+      _e = fe({
+        lineHeight: 1.65,
+        $nest: we({}, '&.'.concat(Se), { fontSize: 16 }),
       }),
-      Pe = ae({
-        $nest: we({}, '&.'.concat(Ee), {
-          backgroundColor: 'rgb(94, 135, 201)',
-          $nest: { '&:hover': { backgroundColor: 'rgba(94, 135, 201, 0.8)' } },
-        }),
+      Ee = fe({
+        lineHeight: 1.35,
+        $nest: we({}, '&.'.concat(Se), { fontSize: 12 }),
       }),
-      Ne = ae({
-        $nest: we({}, '&.'.concat(Ee), {
-          backgroundColor: 'rgb(221, 72, 56)',
-          $nest: { '&:hover': { backgroundColor: 'rgba(221, 72, 56, 0.8)' } },
-        }),
-      }),
-      Oe = {
-        button: Ee,
-        disabled: Ce,
-        primary: Pe,
-        secondary: ae({
-          $nest: we({}, '&.'.concat(Ee), {
-            color: '#222299',
-            $nest: {
-              '&:hover': {
-                color: '#5555aa',
-                backgroundColor: 'rgba(221, 221, 245, 0.13)',
-              },
-            },
-          }),
-        }),
-        danger: Ne,
+      Ce = fe({ $nest: we({}, '&.'.concat(Se), { fontSize: 88 }) }),
+      Pe = fe({ $nest: we({}, '&.'.concat(Se), { fontSize: 44 }) }),
+      Ne = {
+        text: Se,
+        caption: Ee,
+        body: _e,
+        button: fe({ $nest: we({}, '&.'.concat(Se), { fontSize: 20 }) }),
+        title: Pe,
+        display: Ce,
       }
-    function Ie(e, t, n) {
+    function Oe(e, t, n) {
       return (
         t in e
           ? Object.defineProperty(e, t, {
@@ -8877,42 +8871,135 @@ object-assign
         e
       )
     }
+    var Ie = ['primary', 'secondary', 'danger']
     function Re(e) {
-      var t = e.children,
-        n = e.className,
-        i = de().panel
+      var t,
+        n = e.text,
+        i = e.onClick,
+        o = e.children,
+        a = e.className,
+        l = xe().button
+      o &&
+        console.error(
+          'Use the "text" prop of Button instead of passing children',
+        )
+      var u = de(Ie, e, 'secondary')
       return r.createElement(
         'div',
-        { className: G()(n, i.panel, e.flush && i.flush) },
+        {
+          onClick: e.disabled ? void 0 : i,
+          className: ne()(
+            l.button,
+            a,
+            ((t = {}),
+            Oe(t, l.primary, 'primary' === u),
+            Oe(t, l.secondary, 'secondary' === u),
+            Oe(t, l.danger, 'danger' === u),
+            Oe(t, l.disabled, e.disabled),
+            t),
+          ),
+        },
+        r.createElement(Te, { button: !0 }, n),
+      )
+    }
+    var Me,
+      De = fe({
+        borderRadius: 4,
+        color: '#ffffff',
+        cursor: 'pointer',
+        padding: '8px 12px 8px',
+        margin: '0 12px 0',
+        transition: '0.2s',
+        textAlign: 'center',
+      }),
+      ze = fe({
+        $nest: Oe({}, '&.'.concat(De), {
+          backgroundColor: '#9999a3',
+          color: '#222233',
+          cursor: 'not-allowed',
+          $nest: {
+            '&:hover': { backgroundColor: '#9999a3', color: '#222233' },
+          },
+        }),
+      }),
+      je = fe({
+        $nest: Oe({}, '&.'.concat(De), {
+          backgroundColor: 'rgb(94, 135, 201)',
+          $nest: { '&:hover': { backgroundColor: 'rgba(94, 135, 201, 0.8)' } },
+        }),
+      }),
+      Ue = fe({
+        $nest: Oe({}, '&.'.concat(De), {
+          backgroundColor: 'rgb(221, 72, 56)',
+          $nest: { '&:hover': { backgroundColor: 'rgba(221, 72, 56, 0.8)' } },
+        }),
+      }),
+      Fe = {
+        button: De,
+        disabled: ze,
+        primary: je,
+        secondary: fe({
+          $nest: Oe({}, '&.'.concat(De), {
+            color: '#222299',
+            $nest: {
+              '&:hover': {
+                color: '#5555aa',
+                backgroundColor: 'rgba(221, 221, 245, 0.13)',
+              },
+            },
+          }),
+        }),
+        danger: Ue,
+      }
+    function Ae(e, t, n) {
+      return (
+        t in e
+          ? Object.defineProperty(e, t, {
+              value: n,
+              enumerable: !0,
+              configurable: !0,
+              writable: !0,
+            })
+          : (e[t] = n),
+        e
+      )
+    }
+    function Le(e) {
+      var t = e.children,
+        n = e.className,
+        i = xe().panel
+      return r.createElement(
+        'div',
+        { className: ne()(n, i.panel, e.flush && i.flush) },
         t,
       )
     }
-    function Me(e) {
+    function We(e) {
       var t = e.text,
         n = e.children,
         i = e.className,
-        o = de().panel
+        o = xe().panel
       return r.createElement(
         'div',
-        { className: G()(i, ce, se, o.header) },
-        r.createElement(me, { title: !0 }, t),
+        { className: ne()(i, me, ve, o.header) },
+        r.createElement(Te, { title: !0 }, t),
         r.createElement('div', null, n),
       )
     }
-    function De(e) {
+    function $e(e) {
       var t = e.children,
         n = e.className,
-        i = de().panel
+        i = xe().panel
       return r.createElement(
         'div',
-        { className: G()(n, i.content, e.flush && i.flush) },
+        { className: ne()(n, i.content, e.flush && i.flush) },
         t,
       )
     }
-    function ze() {
-      return r.createElement('hr', { className: Ae })
+    function Ve() {
+      return r.createElement('hr', { className: qe })
     }
-    var je = ae({
+    var Be = fe({
         borderRadius: 4,
         display: 'inline-block',
         paddingTop: '24px',
@@ -8920,55 +9007,163 @@ object-assign
         backgroundColor: '#ffffff',
         boxShadow: '0 1px 1px 1px rgba(0, 0, 0, 0.18)',
       }),
-      Ue = ae({ padding: '0 12px 24px' }),
-      Fe = ae({ padding: '0 12px 24px' }),
-      Ae = ae({
+      He = fe({ padding: '0 12px 24px' }),
+      Qe = fe({ padding: '0 12px 24px' }),
+      qe = fe({
         backgroundColor: 'rgba(20, 20, 30, 0.35)',
         height: '2px',
         margin: '0 0 24px',
         border: 'none',
       }),
-      Le = {
-        panel: je,
-        header: Ue,
-        content: Fe,
-        flush: ae({
-          $nest: ((_e = {}),
-          Ie(_e, '&.'.concat(Fe), { padding: '0 0 24px' }),
-          Ie(_e, '&.'.concat(je), { margin: '0' }),
-          _e),
+      Ke = {
+        panel: Be,
+        header: He,
+        content: Qe,
+        flush: fe({
+          $nest: ((Me = {}),
+          Ae(Me, '&.'.concat(Qe), { padding: '0 0 24px' }),
+          Ae(Me, '&.'.concat(Be), { margin: '0' }),
+          Me),
         }),
-        divider: Ae,
+        divider: qe,
       }
-    var We,
-      $e,
-      Ve,
-      Be = {}
-    ;(Be.container = ae({ position: 'relative', cursor: 'help' })),
-      (Be.active = ae({})),
-      (Be.tooltip = ae({
+    function Ye(e, t) {
+      return (
+        (function(e) {
+          if (Array.isArray(e)) return e
+        })(e) ||
+        (function(e, t) {
+          var n = [],
+            r = !0,
+            i = !1,
+            o = void 0
+          try {
+            for (
+              var a, l = e[Symbol.iterator]();
+              !(r = (a = l.next()).done) &&
+              (n.push(a.value), !t || n.length !== t);
+              r = !0
+            );
+          } catch (e) {
+            ;(i = !0), (o = e)
+          } finally {
+            try {
+              r || null == l.return || l.return()
+            } finally {
+              if (i) throw o
+            }
+          }
+          return n
+        })(e, t) ||
+        (function() {
+          throw new TypeError(
+            'Invalid attempt to destructure non-iterable instance',
+          )
+        })()
+      )
+    }
+    function Xe(e) {
+      var t,
+        n,
+        o,
+        a = e.disabled,
+        l = e.content,
+        u = e.children,
+        c = e.size,
+        s = void 0 === c ? 240 : c,
+        f = e.manual,
+        d = void 0 !== f && f,
+        p = xe().tooltip,
+        h = Ye(Object(r.useState)(!1), 2),
+        m = h[0],
+        v = h[1],
+        y = Object(r.useRef)(null)
+      if (y.current && window) {
+        var g = y.current.getBoundingClientRect(),
+          b = g.left,
+          x = g.right,
+          w = g.top
+        ;(t = window.innerWidth - x <= s && !(b < s) ? p.left : p.right),
+          (n = window.innerHeight - w)
+      } else (t = p.right), (n = 0)
+      return i.a.createElement(
+        'div',
+        {
+          className: p.container,
+          ref: y,
+          onMouseEnter: function() {
+            return v(!d || m)
+          },
+          onMouseLeave: function() {
+            return v(!!d && m)
+          },
+          onClick:
+            d && !a
+              ? function() {
+                  return v(function(e) {
+                    return !e
+                  })
+                }
+              : tt,
+        },
+        i.a.createElement(
+          'div',
+          {
+            className: ne()(p.tooltip, m && !a && p.active, t),
+            style: { width: ''.concat(s, 'px'), height: ''.concat(n, 'px') },
+          },
+          i.a.createElement(
+            'div',
+            {
+              className: ne()(ge, he),
+              style: { maxWidth: ''.concat(s, 'px') },
+            },
+            (o = l) && 'string' == typeof o
+              ? i.a.createElement(
+                  Le,
+                  { flush: !0 },
+                  i.a.createElement(
+                    $e,
+                    null,
+                    i.a.createElement(Te, { body: !0 }, o),
+                  ),
+                )
+              : o,
+            i.a.createElement('div', { style: { flex: 1 } }),
+          ),
+        ),
+        u,
+      )
+    }
+    var Ge,
+      Ze,
+      Je,
+      et = {}
+    function tt() {}
+    ;(et.container = fe({ position: 'relative', cursor: 'help' })),
+      (et.active = fe({})),
+      (et.tooltip = fe({
         display: 'none',
         position: 'absolute',
         cursor: 'help',
-        $nest: ((We = {}),
-        ($e = '.'.concat(Be.container, ' > &.').concat(Be.active)),
-        (Ve = { display: 'flex !important' }),
-        $e in We
-          ? Object.defineProperty(We, $e, {
-              value: Ve,
+        top: 0,
+        $nest: ((Ge = {}),
+        (Ze = '.'.concat(et.container, ' > &.').concat(et.active)),
+        (Je = { display: 'flex !important' }),
+        Ze in Ge
+          ? Object.defineProperty(Ge, Ze, {
+              value: Je,
               enumerable: !0,
               configurable: !0,
               writable: !0,
             })
-          : (We[$e] = Ve),
-        We),
+          : (Ge[Ze] = Je),
+        Ge),
       })),
-      (Be.left = ae({ right: '100%', justifyContent: 'end', top: 0 })),
-      (Be.right = ae({ left: '100%', justifyContent: 'start', top: 0 }))
-    var He = { button: Oe, panel: Le, text: ke, tooltip: Be }
-    var Qe = n(6),
-      qe = n.n(Qe)
-    function Ke(e, t, n) {
+      (et.left = fe({ right: '100%', justifyContent: 'end' })),
+      (et.right = fe({ left: '100%', justifyContent: 'start' }))
+    var nt = { button: Fe, panel: Ke, text: Ne, tooltip: et }
+    function rt(e, t, n) {
       return {
         r: e,
         g: t,
@@ -8976,7 +9171,7 @@ object-assign
         a: arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 1,
       }
     }
-    function Ye(e) {
+    function it(e) {
       var t = e.r,
         n = e.g,
         r = e.b,
@@ -8987,7 +9182,7 @@ object-assign
         .concat(r, ', ')
         .concat(i, ')')
     }
-    function Xe(e) {
+    function ot(e) {
       for (var t = 1; t < arguments.length; t++) {
         var n = null != arguments[t] ? arguments[t] : {},
           r = Object.keys(n)
@@ -8998,12 +9193,12 @@ object-assign
             }),
           )),
           r.forEach(function(t) {
-            Ge(e, t, n[t])
+            at(e, t, n[t])
           })
       }
       return e
     }
-    function Ge(e, t, n) {
+    function at(e, t, n) {
       return (
         t in e
           ? Object.defineProperty(e, t, {
@@ -9016,12 +9211,33 @@ object-assign
         e
       )
     }
+    function lt(e) {
+      var t = e.faces,
+        n = e.roll,
+        r = void 0 === n ? t : n,
+        o = e.onClick,
+        a = e.index,
+        l = void 0 === a ? -1 : a
+      return i.a.createElement(
+        'div',
+        {
+          className: ne()(st, dt, pe, ve, mt[t]),
+          onDoubleClick: function(e) {
+            return e.preventDefault()
+          },
+          onClick: o(l, t, r),
+        },
+        i.a.createElement('div', { className: ft }),
+        i.a.createElement(Te, { className: pt }, ''.concat(r)),
+      )
+    }
     for (
-      var Ze,
-        Je,
-        et = ae({
+      var ut,
+        ct,
+        st = fe({
           width: '70px',
           height: '70px',
+          position: 'relative',
           borderRadius: '35px',
           boxSizing: 'border-box',
           padding: '0',
@@ -9030,9 +9246,19 @@ object-assign
           userSelect: 'none',
           border: 'solid 2px #18181d',
         }),
-        tt = ae({
-          $nest: Ge({}, '&.'.concat(et), {
-            animationName: oe({
+        ft = fe({
+          position: 'absolute',
+          borderRadius: '33px 33px 0 0',
+          top: 0,
+          left: 0,
+          right: 0,
+          width: '66px',
+          height: '33px',
+          backgroundColor: 'rgba(255, 255, 255, 0.22)',
+        }),
+        dt = fe({
+          $nest: at({}, '&.'.concat(st), {
+            animationName: se({
               '0%': { margin: '-35px', opacity: 0 },
               '100%': { margin: '12px', opacity: 1 },
             }),
@@ -9040,45 +9266,38 @@ object-assign
             animationIterationCount: '1',
           }),
         }),
-        nt = ae({
+        pt = fe({
           fontSize: '32px',
           color: '#f0f2ee',
           fontWeight: 'bold',
+          zIndex: 1,
           textShadow:
             '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
         }),
-        rt = ae({
-          border: 'solid 2px #18181d',
-          boxSizing: 'border-box',
-          color: '#f0f2ee',
-          fontWeight: 'bold',
-          textShadow:
-            '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
-        }),
-        it = ((Ze = [
-          { value: 0, color: Ke(0, 0, 0) },
-          { value: 2, color: Ke(69, 36, 65) },
-          { value: 4, color: Ke(88, 24, 69) },
-          { value: 6, color: Ke(144, 12, 63) },
-          { value: 8, color: Ke(199, 0, 57) },
-          { value: 10, color: Ke(255, 87, 51) },
-          { value: 12, color: Ke(255, 195, 0) },
-          { value: 20, color: Ke(218, 247, 166) },
+        ht = ((ut = [
+          { value: 0, color: rt(0, 0, 0) },
+          { value: 1, color: rt(69, 36, 65) },
+          { value: 3, color: rt(88, 24, 69) },
+          { value: 5, color: rt(144, 12, 63) },
+          { value: 7, color: rt(199, 0, 57) },
+          { value: 9, color: rt(255, 87, 51) },
+          { value: 11, color: rt(255, 195, 0) },
+          { value: 20, color: rt(218, 247, 166) },
         ]),
-        (Je = Ze.slice().sort(function(e, t) {
+        (ct = ut.slice().sort(function(e, t) {
           return e.value - t.value
-        }) || [{ value: 0, color: Ke(0, 0, 0) }]),
+        }) || [{ value: 0, color: rt(0, 0, 0) }]),
         function(e) {
-          for (var t = 0; Je[t].value < e; ) {
-            if (t === Je.length) return Je[Je.length].color
+          for (var t = 0; ct[t].value < e; ) {
+            if (t === ct.length) return ct[ct.length].color
             t += 1
           }
-          if (Je[t].value === e) return Je[t].color
-          if (0 === t) return Je[0].color
-          var n = Je[t - 1],
+          if (ct[t].value === e) return ct[t].color
+          if (0 === t) return ct[0].color
+          var n = ct[t - 1],
             r = n.value,
             i = n.color,
-            o = Je[t],
+            o = ct[t],
             a = o.value
           return (function(e, t) {
             var n =
@@ -9093,57 +9312,114 @@ object-assign
             }
           })(i, o.color, (e - r) / (a - r))
         }),
-        ot = [],
-        at = 0;
-      at <= 20;
-      at++
+        mt = [],
+        vt = 0;
+      vt <= 20;
+      vt++
     ) {
-      var lt = it(at)
-      ot.push(
-        ae({
-          backgroundColor: Ye(lt),
-          $nest: { '&:hover': { backgroundColor: Ye(Xe({}, lt, { a: 0.8 })) } },
+      var yt = ht(vt)
+      mt.push(
+        fe({
+          backgroundColor: it(yt),
+          $nest: { '&:hover': { backgroundColor: it(ot({}, yt, { a: 0.8 })) } },
         }),
       )
     }
-    var ut = ae({
+    function gt() {
+      var e = D(H),
+        t = O({ rerollDie: K, removeDie: G, incrementDie: Y })
+      function n(e, n, r) {
+        return function(i) {
+          i.getModifierState('Control')
+            ? t.removeDie(e)
+            : i.getModifierState('Meta')
+              ? t.removeDie(e)
+              : i.getModifierState('Alt')
+                ? t.incrementDie(e, { faces: n, roll: r })
+                : t.rerollDie(e, { faces: n, roll: r })
+        }
+      }
+      return i.a.createElement(
+        r.Fragment,
+        null,
+        i.a.createElement(
+          $e,
+          { className: ne()(wt, pe, ve) },
+          e.map(function(e, t) {
+            return i.a.createElement(lt, {
+              key: t,
+              index: t,
+              faces: e.faces,
+              roll: e.roll,
+              onClick: n,
+            })
+          }),
+        ),
+        i.a.createElement(Ve, null),
+      )
+    }
+    function bt() {
+      var e = D(H).length,
+        t = D(J),
+        n = D(ee)
+      return i.a.createElement(
+        Le,
+        { flush: !0 },
+        i.a.createElement(
+          $e,
+          null,
+          i.a.createElement(Te, { body: !0 }, 'Minimum: '.concat(e)),
+          i.a.createElement(Te, { body: !0 }, 'Maximum: '.concat(t)),
+          i.a.createElement(Te, { body: !0 }, 'Expected: '.concat((e + t) / 2)),
+          i.a.createElement(Te, { body: !0 }, 'Percentile: '.concat(n)),
+        ),
+      )
+    }
+    var xt = fe({
         position: 'relative',
         fontFamily: 'sans-serif',
         minHeight: '100vh',
         backgroundColor: '#a1a5a8',
         padding: '12px',
         boxSizing: 'border-box',
-        backgroundImage: 'url('.concat(qe.a, ')'),
+        background:
+          'repeating-linear-gradient(\n    -55deg,\n    #d1d1d8,\n    #d1d1d8 20px,\n    #d3d3da 20px,\n    #d3d3da 40px\n  )',
       }),
-      ct = ae({ display: 'flex', flexWrap: 'wrap', width: '600px' }),
-      st = ae({ display: 'flex', alignItems: 'start' }),
-      ft = document.getElementById('anchor')
-    ft
+      wt = fe({ display: 'flex', flexWrap: 'wrap', width: '600px' }),
+      kt = fe({
+        border: 'solid 2px #18181d',
+        boxSizing: 'border-box',
+        color: '#f0f2ee',
+        fontWeight: 'bold',
+        textShadow:
+          '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
+      }),
+      Tt = document.getElementById('anchor')
+    Tt
       ? Object(o.render)(
           i.a.createElement(
             function(e) {
               var t = e.children,
                 n = e.configureStore,
                 i = (void 0 === n ? d : n)()
-              return w(i), Object(r.createElement)(_.Provider, { value: i }, t)
+              return k(i), Object(r.createElement)(_.Provider, { value: i }, t)
             },
             null,
             i.a.createElement(
               function(e) {
                 var t = e.children
-                return i.a.createElement(fe.Provider, { value: He }, t)
+                return i.a.createElement(be.Provider, { value: nt }, t)
               },
               null,
               i.a.createElement(function() {
-                var e = M(L),
-                  t = M(Y),
-                  n = O({
-                    addDieRoll: $,
-                    rerollDie: V,
-                    clearDice: q,
-                    removeDie: K,
-                    incrementDie: B,
-                  })
+                var e = D(H),
+                  t = D(Z),
+                  n = O({ addDieRoll: q, clearDice: X })
+                function o(e, t) {
+                  return function() {
+                    return n.addDieRoll(t)
+                  }
+                }
                 return (
                   Object(r.useEffect)(function() {
                     function e(e) {
@@ -9154,115 +9430,70 @@ object-assign
                       'Enter' == e.key && n.addDieRoll(20)
                     }
                     return (
-                      window.addEventListener('keyup', e),
+                      window.addEventListener('keydown', e),
                       function() {
-                        window.removeEventListener('keyup', e)
+                        window.removeEventListener('keydown', e)
                       }
                     )
                   }, []),
                   i.a.createElement(
                     'div',
-                    { className: G()(ut, ue, st) },
+                    { className: ne()(xt, pe, ye) },
                     i.a.createElement(
-                      Re,
+                      Le,
                       null,
                       i.a.createElement(
-                        Me,
-                        { className: se, text: 'Dinky Dice Tower' },
-                        i.a.createElement(Se, {
+                        We,
+                        { className: ve, text: 'D & Dice Tower' },
+                        i.a.createElement(Re, {
                           danger: !0,
-                          className: rt,
+                          className: kt,
                           text: 'Clear',
                           onClick: n.clearDice,
                         }),
                       ),
                       i.a.createElement(
-                        De,
-                        { className: ct },
+                        $e,
+                        { className: wt },
                         i.a.createElement(
-                          me,
+                          Te,
                           { body: !0 },
                           'Click on a die in the top section to add another die to the roll. Hit the space bar to clear all dice. Click a rolled die to reroll it. Ctrl or cmd click on a rolled die to clear that die. Alt or opt click on a rolled die to increment its value.',
                         ),
                       ),
                       i.a.createElement(
-                        De,
-                        { className: ue },
+                        $e,
+                        { className: pe },
                         [4, 6, 8, 10, 12, 20].map(function(e) {
-                          return i.a.createElement(
-                            'div',
-                            {
-                              key: e,
-                              className: G()(et, ue, se, ot[e]),
-                              onClick: function() {
-                                return n.addDieRoll(e)
-                              },
-                              onDoubleClick: function(e) {
-                                return e.preventDefault()
-                              },
-                            },
-                            i.a.createElement(
-                              me,
-                              { className: nt },
-                              ''.concat(e),
-                            ),
-                          )
+                          return i.a.createElement(lt, {
+                            key: e,
+                            faces: e,
+                            onClick: o,
+                          })
                         }),
                       ),
-                      i.a.createElement(ze, null),
-                      e.length > 0
-                        ? i.a.createElement(
-                            r.Fragment,
-                            null,
-                            i.a.createElement(
-                              De,
-                              { className: G()(ct, ue, se) },
-                              e.map(function(e, t) {
-                                return i.a.createElement(
-                                  'div',
-                                  {
-                                    key: t,
-                                    className: G()(et, tt, ue, se, ot[e.faces]),
-                                    onClick: o(t, e),
-                                  },
-                                  i.a.createElement(
-                                    me,
-                                    { className: nt },
-                                    ''.concat(e.roll),
-                                  ),
-                                )
-                              }),
-                            ),
-                            i.a.createElement(ze, null),
-                          )
-                        : void 0,
+                      i.a.createElement(Ve, null),
+                      e.length > 0 && i.a.createElement(gt, null),
                       i.a.createElement(
-                        De,
-                        { className: ue },
+                        $e,
+                        { className: pe },
                         i.a.createElement(
-                          me,
-                          { title: !0 },
-                          'TOTAL: '.concat(t),
+                          Xe,
+                          { content: i.a.createElement(bt, null) },
+                          i.a.createElement(
+                            Te,
+                            { title: !0 },
+                            'TOTAL: '.concat(t),
+                          ),
                         ),
                       ),
                     ),
                   )
                 )
-                function o(e, t) {
-                  return function(r) {
-                    r.getModifierState('Control')
-                      ? n.removeDie(e)
-                      : r.getModifierState('Meta')
-                        ? n.removeDie(e)
-                        : r.getModifierState('Alt')
-                          ? n.incrementDie(e, t)
-                          : n.rerollDie(e, t)
-                  }
-                }
               }, null),
             ),
           ),
-          ft,
+          Tt,
         )
       : console.error('No anchor element provided')
   },
