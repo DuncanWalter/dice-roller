@@ -4,6 +4,8 @@ const { join } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const VisualizerPlugin = require('webpack-visualizer-plugin')
+const AnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 function clean(...entries) {
   return entries.filter(entry => !!entry && entry !== true)
@@ -33,23 +35,21 @@ function createConfig(production) {
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: clean(
-            {
-              loader: require.resolve('babel-loader'),
-              options: {
-                presets: clean(
-                  require('@babel/preset-react'),
-                  require('@babel/preset-typescript'),
-                  clean(require('@babel/preset-env'), {
-                    modules: false,
-                    targets: 'last 1 version, not dead, > 1% in US',
-                  }),
-                ),
-              },
+          test: /\.(ts|js)x?$/,
+          exclude: /node_modules/,
+          use: clean({
+            loader: require.resolve('babel-loader'),
+            options: {
+              presets: clean(
+                require('@babel/preset-react'),
+                require('@babel/preset-typescript'),
+                clean(require('@babel/preset-env'), {
+                  modules: false,
+                  targets: 'last 1 version, not dead, > 1% in US',
+                }),
+              ),
             },
-            // production && require.resolve('ts-loader'),
-          ),
+          }),
         },
         {
           test: /\.css$/,
@@ -91,6 +91,8 @@ function createConfig(production) {
         new CompressionPlugin({
           test: production ? /\.(js|css)$/ : '__disabled__',
         }),
+      production && new VisualizerPlugin(),
+      production && new AnalyzerPlugin(),
       new HtmlWebpackPlugin({
         template: join(sourcePath, 'index.html'),
       }),

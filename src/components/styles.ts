@@ -66,6 +66,16 @@ export const alignStretch = style({
   alignItems: 'stretch',
 })
 
+export const alignStart = style({
+  display: 'flex',
+  alignItems: 'start',
+})
+
+export const alignEnd = style({
+  display: 'flex',
+  alignItems: 'end',
+})
+
 export const row = style({
   display: 'flex',
   flexDirection: 'row',

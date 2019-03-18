@@ -19,6 +19,7 @@ export const ThemeContext = createContext({
   button: {},
   panel: {},
   text: {},
+  tooltip: {},
 } as Theme)
 
 export function useTheme(): Theme {
