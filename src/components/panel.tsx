@@ -86,7 +86,7 @@ const panel = style({
   paddingTop: '24px',
   margin: '12px',
   backgroundColor: '#ffffff',
-  boxShadow: '0 1px 1px 1px rgba(0, 0, 0, 0.18)',
+  boxShadow: '0 1px 2px 1px rgba(0, 0, 0, 0.18)',
 })
 
 const header = style({
@@ -98,9 +98,11 @@ const content = style({
 })
 
 const divider = style({
-  backgroundColor: 'rgba(20, 20, 30, 0.35)',
+  backgroundColor: 'transparent',
+  borderTop: 'dashed 2px rgba(0, 0, 0, 0.12)',
+  boxSizing: 'border-box',
   height: '2px',
-  margin: '0 0 24px',
+  margin: '0 12px 24px',
   border: 'none',
 })
 

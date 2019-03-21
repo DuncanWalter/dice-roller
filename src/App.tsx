@@ -1,4 +1,10 @@
-import React, { useEffect, Fragment, MouseEvent } from 'react'
+import React, {
+  useEffect,
+  Fragment,
+  MouseEvent,
+  ReactNode,
+  ReactNodeArray,
+} from 'react'
 import { useActions, useSelector } from '@dwalter/spider-hook'
 import {
   addDieRoll,
@@ -23,10 +29,35 @@ import {
   alignCenter,
   Tooltip,
   alignStart,
+  Case,
 } from './components'
 import { style } from 'typestyle'
 
 import { Die } from './Die'
+import { Responsive } from './components'
+
+function ResponsivePage({
+  children,
+}: {
+  children: ReactNode | ReactNodeArray
+}) {
+  return (
+    <Responsive>
+      <Case
+        minWidth={0}
+        content={<div className={mobileApp}>{children}</div>}
+      />
+      <Case
+        minWidth={1000}
+        content={
+          <div className={joinNames(desktopApp, justifyCenter, alignStart)}>
+            <Panel>{children} </Panel>
+          </div>
+        }
+      />
+    </Responsive>
+  )
+}
 
 export function App() {
   const dice = useSelector(getDice)
@@ -75,38 +106,36 @@ export function App() {
   }
 
   return (
-    <div className={joinNames(app, justifyCenter, alignStart)}>
-      <Panel>
-        <PanelHeader className={alignCenter} text="D & Dice Tower">
-          <Button
-            danger
-            className={boldButton}
-            text="Clear"
-            onClick={actions.clearDice}
-          />
-        </PanelHeader>
-        <PanelContent className={wrap}>
-          <Text body>
-            Click on a die in the top section to add another die to the roll.
-            Hit the space bar to clear all dice. Click a rolled die to reroll
-            it. Ctrl or cmd click on a rolled die to clear that die. Alt or opt
-            click on a rolled die to increment its value.
-          </Text>
-        </PanelContent>
-        <PanelContent className={justifyCenter}>
-          {[4, 6, 8, 10, 12, 20].map(faces => (
-            <Die key={faces} faces={faces} onClick={onClickMasterDie} />
-          ))}
-        </PanelContent>
-        <PanelDivider />
-        {dice.length > 0 && <RolledDice />}
-        <PanelContent className={justifyCenter}>
-          <Tooltip content={<RollStats />}>
-            <Text title>{`TOTAL: ${total}`}</Text>
-          </Tooltip>
-        </PanelContent>
-      </Panel>
-    </div>
+    <ResponsivePage>
+      <PanelHeader className={alignCenter} text="D & Dice Tower">
+        <Button
+          danger
+          className={boldButton}
+          text="Clear"
+          onClick={actions.clearDice}
+        />
+      </PanelHeader>
+      <PanelContent className={wrap}>
+        <Text body>
+          Click on a die in the top section to add another die to the roll. Hit
+          the space bar to clear all dice. Click a rolled die to reroll it. Ctrl
+          or cmd click on a rolled die to clear that die. Alt or opt click on a
+          rolled die to increment its value.
+        </Text>
+      </PanelContent>
+      <PanelContent className={justifyCenter}>
+        {[4, 6, 8, 10, 12, 20].map(faces => (
+          <Die key={faces} faces={faces} onClick={onClickMasterDie} />
+        ))}
+      </PanelContent>
+      <PanelDivider />
+      {dice.length > 0 && <RolledDice />}
+      <PanelContent className={justifyCenter}>
+        <Tooltip content={<RollStats />}>
+          <Text title>{`TOTAL: ${total}`}</Text>
+        </Tooltip>
+      </PanelContent>
+    </ResponsivePage>
   )
 }
 
@@ -172,20 +201,20 @@ function RollStats() {
   )
 }
 
-const app = style({
+const desktopApp = style({
   position: 'relative',
   fontFamily: 'sans-serif',
   minHeight: '100vh',
-  backgroundColor: '#a1a5a8',
+  backgroundColor: 'rgb(235, 239, 244)',
   padding: '12px',
   boxSizing: 'border-box',
-  background: `repeating-linear-gradient(
-    -55deg,
-    #d1d1d8,
-    #d1d1d8 20px,
-    #d3d3da 20px,
-    #d3d3da 40px
-  )`,
+})
+
+const mobileApp = style({
+  fontFamily: 'sans-serif',
+  minHeight: '100vh',
+  padding: '12px',
+  boxSizing: 'border-box',
 })
 
 const wrap = style({
