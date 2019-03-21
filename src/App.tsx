@@ -26,7 +26,6 @@ import {
 } from './components'
 import { style } from 'typestyle'
 
-import texture from './texture.png'
 import { Die } from './Die'
 
 export function App() {
@@ -36,6 +35,10 @@ export function App() {
   const actions = useActions({
     addDieRoll,
     clearDice,
+    rerollDice() {
+      return (dispatch, resolve) =>
+        dispatch(resolve(getDice).map((die, index) => rerollDie(index, die)))
+    },
   })
 
   useEffect(() => {
@@ -54,6 +57,9 @@ export function App() {
       }
       if (event.key == 'Enter') {
         actions.addDieRoll(20)
+      }
+      if (event.key === 'r') {
+        actions.rerollDice()
       }
     }
 
