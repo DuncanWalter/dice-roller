@@ -30,34 +30,12 @@ import {
   Tooltip,
   alignStart,
   Case,
+  column,
+  Responsive,
 } from './components'
 import { style } from 'typestyle'
 
 import { Die } from './Die'
-import { Responsive } from './components'
-
-function ResponsivePage({
-  children,
-}: {
-  children: ReactNode | ReactNodeArray
-}) {
-  return (
-    <Responsive>
-      <Case
-        minWidth={0}
-        content={<div className={mobileApp}>{children}</div>}
-      />
-      <Case
-        minWidth={1000}
-        content={
-          <div className={joinNames(desktopApp, justifyCenter, alignStart)}>
-            <Panel>{children} </Panel>
-          </div>
-        }
-      />
-    </Responsive>
-  )
-}
 
 export function App() {
   const dice = useSelector(getDice)
@@ -115,7 +93,7 @@ export function App() {
           onClick={actions.clearDice}
         />
       </PanelHeader>
-      <PanelContent className={wrap}>
+      <PanelContent>
         <Text body>
           Click on a die in the top section to add another die to the roll. Hit
           the space bar to clear all dice. Click a rolled die to reroll it. Ctrl
@@ -123,19 +101,49 @@ export function App() {
           rolled die to increment its value.
         </Text>
       </PanelContent>
-      <PanelContent className={justifyCenter}>
+      <PanelContent className={joinNames(wrap, justifyCenter)}>
         {[4, 6, 8, 10, 12, 20].map(faces => (
           <Die key={faces} faces={faces} onClick={onClickMasterDie} />
         ))}
       </PanelContent>
       <PanelDivider />
       {dice.length > 0 && <RolledDice />}
+      <div style={{ flex: 1 }} />
       <PanelContent className={justifyCenter}>
         <Tooltip content={<RollStats />}>
           <Text title>{`TOTAL: ${total}`}</Text>
         </Tooltip>
       </PanelContent>
     </ResponsivePage>
+  )
+}
+
+function ResponsivePage({
+  children,
+}: {
+  children: ReactNode | ReactNodeArray
+}) {
+  return (
+    <Responsive>
+      <Case
+        minWidth={0}
+        content={
+          <div
+            className={joinNames(mobileApp, column, justifyCenter, alignCenter)}
+          >
+            {children}
+          </div>
+        }
+      />
+      <Case
+        minWidth={648}
+        content={
+          <div className={joinNames(desktopApp, justifyCenter, alignStart)}>
+            <Panel className={appPanel}>{children} </Panel>
+          </div>
+        }
+      />
+    </Responsive>
   )
 }
 
@@ -210,6 +218,10 @@ const desktopApp = style({
   boxSizing: 'border-box',
 })
 
+const appPanel = style({
+  width: '600px',
+})
+
 const mobileApp = style({
   fontFamily: 'sans-serif',
   minHeight: '100vh',
@@ -220,7 +232,6 @@ const mobileApp = style({
 const wrap = style({
   display: 'flex',
   flexWrap: 'wrap',
-  width: '600px',
 })
 
 const boldButton = style({

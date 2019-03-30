@@ -2,4 +2,4 @@
 
 Link: [https://duncanwalter.github.io/dice-roller/](https://duncanwalter.github.io/dice-roller/)
 
-Simple DnD dice roller with clean, usable ui and helpful keyboard commands.
+Simple DnD dice roller with minimal ui and helpful keyboard shortcuts.

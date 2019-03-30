@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { useRef } from 'react'
-import { style } from 'typestyle'
+import { style, keyframes } from 'typestyle'
 import { useTheme } from './theme'
 import { joinNames, justifyEnd, column, alignEnd } from './styles'
 import { Text } from './text'
@@ -102,14 +102,24 @@ defaultTooltipTheme.container = style({
 
 defaultTooltipTheme.active = style({})
 
+const fadeIn = keyframes({
+  '0%': { opacity: 0 },
+  '20%': { opacity: 0 },
+  '100%': { opacity: 1 },
+})
+
 defaultTooltipTheme.tooltip = style({
   display: 'none',
   position: 'absolute',
   cursor: 'help',
   top: 0,
+  transition: '0.4s',
   $nest: {
     [`.${defaultTooltipTheme.container} > &.${defaultTooltipTheme.active}`]: {
       display: 'flex !important',
+      animationName: fadeIn,
+      animationDuration: '0.5s',
+      animationIterationCount: 1,
     },
   },
 })

@@ -33,6 +33,33 @@ export function Die({ faces, roll = faces, onClick, index = -1 }: DieProps) {
   )
 }
 
+const diceSpectrum = createSpectrum([
+  { value: 0, color: rgba(0, 0, 0) },
+  { value: 1, color: rgba(69, 36, 65) },
+  { value: 3, color: rgba(88, 24, 69) },
+  { value: 5, color: rgba(144, 12, 63) },
+  { value: 7, color: rgba(199, 0, 57) },
+  { value: 9, color: rgba(255, 87, 51) },
+  { value: 11, color: rgba(255, 195, 0) },
+  { value: 20, color: rgba(218, 247, 166) },
+])
+
+const diceColors = [] as string[]
+
+for (let i = 0; i <= 20; i++) {
+  const color = diceSpectrum(i)
+  diceColors.push(
+    style({
+      backgroundColor: cssColor(color),
+      $nest: {
+        '&:hover': {
+          backgroundColor: cssColor({ ...color, a: 0.8 }),
+        },
+      },
+    }),
+  )
+}
+
 const die = style({
   width: '70px',
   height: '70px',
@@ -78,30 +105,3 @@ const dieText = style({
   textShadow:
     '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
 })
-
-const diceSpectrum = createSpectrum([
-  { value: 0, color: rgba(0, 0, 0) },
-  { value: 1, color: rgba(69, 36, 65) },
-  { value: 3, color: rgba(88, 24, 69) },
-  { value: 5, color: rgba(144, 12, 63) },
-  { value: 7, color: rgba(199, 0, 57) },
-  { value: 9, color: rgba(255, 87, 51) },
-  { value: 11, color: rgba(255, 195, 0) },
-  { value: 20, color: rgba(218, 247, 166) },
-])
-
-const diceColors = [] as string[]
-
-for (let i = 0; i <= 20; i++) {
-  const color = diceSpectrum(i)
-  diceColors.push(
-    style({
-      backgroundColor: cssColor(color),
-      $nest: {
-        '&:hover': {
-          backgroundColor: cssColor({ ...color, a: 0.8 }),
-        },
-      },
-    }),
-  )
-}

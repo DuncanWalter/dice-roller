@@ -98,12 +98,11 @@ const content = style({
 })
 
 const divider = style({
-  backgroundColor: 'transparent',
-  borderTop: 'dashed 2px rgba(0, 0, 0, 0.12)',
-  boxSizing: 'border-box',
+  width: '100%',
   height: '2px',
-  margin: '0 12px 24px',
   border: 'none',
+  backgroundColor: 'rgba(0, 0, 0, 0.12)',
+  margin: '0 0 24px',
 })
 
 const flush = style({
