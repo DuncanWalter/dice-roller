@@ -31,6 +31,7 @@ function createConfig(production) {
     resolve: {
       extensions: ['.js', '.ts', '.tsx'],
       mainFields: ['module', 'browser', 'main'],
+      modules: [join(process.cwd(), 'node_modules'), './node_modules'],
     },
     module: {
       rules: [

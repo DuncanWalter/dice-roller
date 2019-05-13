@@ -5,7 +5,12 @@ import React, {
   ReactNode,
   ReactNodeArray,
 } from 'react'
-import { useActions, useSelector } from '@dwalter/spider-hook'
+import {
+  useSelector,
+  useDispatch,
+  Dispatch,
+  Resolve,
+} from '@dwalter/spider-hook'
 import {
   addDieRoll,
   clearDice,
@@ -36,39 +41,39 @@ import {
 import { style } from 'typestyle'
 
 import { Die } from './Die'
+// import { useRouter } from 'daggerboard'
+
+function rerollDice() {
+  return (dispatch: Dispatch, resolve: Resolve) => {
+    dispatch(resolve(getDice).map((die, index) => rerollDie(index, die)))
+  }
+}
 
 export function App() {
   const dice = useSelector(getDice)
   const total = useSelector(getTotal)
 
-  const actions = useActions({
-    addDieRoll,
-    clearDice,
-    rerollDice() {
-      return (dispatch, resolve) =>
-        dispatch(resolve(getDice).map((die, index) => rerollDie(index, die)))
-    },
-  })
+  const dispatch = useDispatch()
 
   useEffect(() => {
     function callback(event: KeyboardEvent) {
       if (event.key === ' ') {
-        actions.clearDice()
+        dispatch(clearDice())
         event.preventDefault()
       }
       if (event.key === '0') {
-        actions.addDieRoll(10)
+        dispatch(addDieRoll(10))
       }
       for (let i = 2; i <= 9; i++) {
         if (event.key == `${i}`) {
-          actions.addDieRoll(i)
+          dispatch(addDieRoll(i))
         }
       }
       if (event.key == 'Enter') {
-        actions.addDieRoll(20)
+        dispatch(addDieRoll(20))
       }
       if (event.key === 'r') {
-        actions.rerollDice()
+        dispatch(rerollDice())
       }
     }
 
@@ -80,17 +85,18 @@ export function App() {
   }, [])
 
   function onClickMasterDie(_: unknown, faces: number) {
-    return () => actions.addDieRoll(faces)
+    return () => dispatch(addDieRoll(faces))
   }
 
   return (
     <ResponsivePage>
+      {/* <RouterTests /> */}
       <PanelHeader className={alignCenter} text="D & Dice Tower">
         <Button
           danger
           className={boldButton}
           text="Clear"
-          onClick={actions.clearDice}
+          onClick={() => dispatch(clearDice)}
         />
       </PanelHeader>
       <PanelContent>
@@ -150,27 +156,23 @@ function ResponsivePage({
 function RolledDice() {
   const dice = useSelector(getDice)
 
-  const actions = useActions({
-    rerollDie,
-    removeDie,
-    incrementDie,
-  })
+  const dispatch = useDispatch()
 
   function onClickRolledDie(index: number, faces: number, roll: number) {
     return (event: MouseEvent): void => {
       if (event.getModifierState('Control')) {
-        actions.removeDie(index)
+        dispatch(removeDie(index))
         return
       }
       if (event.getModifierState('Meta')) {
-        actions.removeDie(index)
+        dispatch(removeDie(index))
         return
       }
       if (event.getModifierState('Alt')) {
-        actions.incrementDie(index, { faces, roll })
+        dispatch(incrementDie(index, { faces, roll }))
         return
       }
-      actions.rerollDie(index, { faces, roll })
+      dispatch(rerollDie(index, { faces, roll }))
     }
   }
 
@@ -242,3 +244,18 @@ const boldButton = style({
   textShadow:
     '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
 })
+
+// function RouterTests() {
+//   return useRouter({
+//     pink: 'sky',
+//     red: '/blue',
+//     blue: <div>BLUE</div>,
+//     'green/:shade': () => <div>GREEN</div>,
+//     deep: <RouterTests />,
+//     dark: {
+//       purple: <div>NIGHT</div>,
+//       red: <div>WINE</div>,
+//     },
+//     '': <div>DEFAULT</div>,
+//   })
+// }
