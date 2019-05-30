@@ -2,6 +2,8 @@ import React, {
   useEffect,
   Fragment,
   MouseEvent,
+  useCallback,
+  memo,
   ReactNode,
   ReactNodeArray,
 } from 'react'
@@ -10,6 +12,8 @@ import {
   useDispatch,
   Dispatch,
   Resolve,
+  forkSelector,
+  Selector,
 } from '@dwalter/spider-hook'
 import {
   addDieRoll,
@@ -41,7 +45,6 @@ import {
 import { style } from 'typestyle'
 
 import { Die } from './Die'
-// import { useRouter } from 'daggerboard'
 
 function rerollDice() {
   return (dispatch: Dispatch, resolve: Resolve) => {
@@ -50,9 +53,6 @@ function rerollDice() {
 }
 
 export function App() {
-  const dice = useSelector(getDice)
-  const total = useSelector(getTotal)
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -90,13 +90,12 @@ export function App() {
 
   return (
     <ResponsivePage>
-      {/* <RouterTests /> */}
       <PanelHeader className={alignCenter} text="D & Dice Tower">
         <Button
           danger
           className={boldButton}
           text="Clear"
-          onClick={() => dispatch(clearDice)}
+          onClick={() => dispatch(clearDice())}
         />
       </PanelHeader>
       <PanelContent>
@@ -113,14 +112,21 @@ export function App() {
         ))}
       </PanelContent>
       <PanelDivider />
-      {dice.length > 0 && <RolledDice />}
+      <RolledDice />
       <div style={{ flex: 1 }} />
-      <PanelContent className={justifyCenter}>
-        <Tooltip content={<RollStats />}>
-          <Text title>{`TOTAL: ${total}`}</Text>
-        </Tooltip>
-      </PanelContent>
+      <RollSummary />
     </ResponsivePage>
+  )
+}
+
+function RollSummary() {
+  const total = useSelector(getTotal)
+  return (
+    <PanelContent className={justifyCenter}>
+      <Tooltip content={<RollStats />}>
+        <Text title>{`TOTAL: ${total}`}</Text>
+      </Tooltip>
+    </PanelContent>
   )
 }
 
@@ -153,12 +159,40 @@ function ResponsivePage({
   )
 }
 
+const getDiceSelectors = forkSelector(getDice, (_, i) => i)
+
 function RolledDice() {
-  const dice = useSelector(getDice)
+  const dice = useSelector(getDiceSelectors)
 
+  const Foo = useCallback(memo(ForkedDie), [memo, ForkedDie])
+
+  if (!dice.length) {
+    return null
+  }
+
+  return (
+    <Fragment>
+      <PanelContent className={joinNames(wrap, justifyCenter, alignCenter)}>
+        {dice.map(([index, getDie]) => (
+          <Foo key={index} getDie={getDie} index={index} />
+        ))}
+      </PanelContent>
+      <PanelDivider />
+    </Fragment>
+  )
+}
+
+function ForkedDie({
+  getDie,
+  index,
+}: {
+  getDie: Selector<{ faces: number; roll: number }>
+  index: number
+}) {
   const dispatch = useDispatch()
+  const { faces, roll } = useSelector(getDie)
 
-  function onClickRolledDie(index: number, faces: number, roll: number) {
+  function onClickRolledDie() {
     return (event: MouseEvent): void => {
       if (event.getModifierState('Control')) {
         dispatch(removeDie(index))
@@ -177,20 +211,7 @@ function RolledDice() {
   }
 
   return (
-    <Fragment>
-      <PanelContent className={joinNames(wrap, justifyCenter, alignCenter)}>
-        {dice.map((die, index) => (
-          <Die
-            key={index}
-            index={index}
-            faces={die.faces}
-            roll={die.roll}
-            onClick={onClickRolledDie}
-          />
-        ))}
-      </PanelContent>
-      <PanelDivider />
-    </Fragment>
+    <Die index={index} faces={faces} roll={roll} onClick={onClickRolledDie} />
   )
 }
 
@@ -244,18 +265,3 @@ const boldButton = style({
   textShadow:
     '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
 })
-
-// function RouterTests() {
-//   return useRouter({
-//     pink: 'sky',
-//     red: '/blue',
-//     blue: <div>BLUE</div>,
-//     'green/:shade': () => <div>GREEN</div>,
-//     deep: <RouterTests />,
-//     dark: {
-//       purple: <div>NIGHT</div>,
-//       red: <div>WINE</div>,
-//     },
-//     '': <div>DEFAULT</div>,
-//   })
-// }

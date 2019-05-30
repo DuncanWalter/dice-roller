@@ -13,9 +13,9 @@ export interface ButtonTheme {
   disabled: string
 }
 
-// TODO: &:focus styles
+type ButtonType = 'primary' | 'secondary' | 'danger'
 
-const types = ['primary', 'secondary', 'danger']
+const types: ButtonType[] = ['primary', 'secondary', 'danger']
 
 export interface ButtonProps {
   className?: ClassName
@@ -23,7 +23,7 @@ export interface ButtonProps {
   primary?: boolean
   secondary?: boolean
   danger?: boolean
-  type?: 'primary' | 'secondary' | 'danger'
+  type?: ButtonType
   text?: string
   onClick?: () => unknown
   children?: never
