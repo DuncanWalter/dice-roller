@@ -13,21 +13,21 @@ export type ClassName =
 
 interface ClassNames extends Array<ClassName | ClassNames> {}
 
-export function readOption(
-  options: string[],
-  props: { [prop: string]: unknown; type?: string },
-  defaultValue?: string,
-): string | void {
+export function readOption<T extends string>(
+  options: T[],
+  props: Partial<Record<T, boolean | undefined>> & { type?: T },
+  defaultValue?: T,
+): T | undefined {
   return (
-    options
-      .filter(option => props[option] || props.type === option)
-      .find((v, i, selections) => {
-        if (selections.length > 1) {
-          console.error(`Ambiguous options: ${selections}`)
-          return false
-        }
-        return true
-      }) || defaultValue
+    options.filter((option) => props[option] || props.type === option)[0] ||
+    defaultValue
+    // .find((__v, __i, selections) => {
+    //   if (selections.length > 1) {
+    //     console.error(`Ambiguous options: ${selections}`)
+    //     return false
+    //   }
+    //   return true
+    // })
   )
 }
 
@@ -84,4 +84,22 @@ export const row = style({
 export const column = style({
   display: 'flex',
   flexDirection: 'column',
+})
+
+export const flex = style({
+  flex: 1,
+})
+
+export const noFlex = style({
+  flex: 0,
+})
+
+export function grow(n: number) {
+  return style({
+    flexGrow: n,
+  })
+}
+
+export const flexGap = style({
+  gap: '8px',
 })

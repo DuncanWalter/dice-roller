@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ReactNode } from 'react'
 import { style } from 'typestyle'
-import { joinNames, justifyBetween, ClassName, alignCenter } from './styles'
+import { joinNames, justifyBetween, ClassName, alignStart } from './styles'
 import { Text } from './text'
 import { useTheme } from './theme'
 
@@ -47,15 +47,10 @@ export function PanelHeader({ text, children, className }: PanelHeaderProps) {
   const { panel: theme } = useTheme()
   return (
     <div
-      className={joinNames(
-        className,
-        justifyBetween,
-        alignCenter,
-        theme.header,
-      )}
+      className={joinNames(className, justifyBetween, alignStart, theme.header)}
     >
       <Text title>{text}</Text>
-      <div>{children}</div>
+      {children ? <div>{children}</div> : null}
     </div>
   )
 }
@@ -83,18 +78,18 @@ export function PanelDivider() {
 const panel = style({
   borderRadius: 4,
   display: 'inline-block',
-  paddingTop: '24px',
-  margin: '12px',
+  padding: '16px 8px 0',
+  margin: '8px',
   backgroundColor: '#ffffff',
   boxShadow: '0 1px 2px 1px rgba(0, 0, 0, 0.18)',
 })
 
 const header = style({
-  padding: '0 12px 24px',
+  padding: '0 8px 16px',
 })
 
 const content = style({
-  padding: '0 12px 24px',
+  padding: '0 8px 16px',
 })
 
 const divider = style({
@@ -102,17 +97,13 @@ const divider = style({
   height: '2px',
   border: 'none',
   backgroundColor: 'rgba(0, 0, 0, 0.12)',
-  margin: '0 0 24px',
+  margin: '0 0 16px',
 })
 
 const flush = style({
   $nest: {
-    [`&.${content}`]: {
-      padding: '0 0 24px',
-    },
-    [`&.${panel}`]: {
-      margin: '0',
-    },
+    [`&.${content}`]: { padding: '0 0 24px' },
+    [`&.${panel}`]: { margin: '0' },
   },
 })
 

@@ -2,9 +2,8 @@ import React from 'react'
 
 import { render } from 'react-dom'
 import { createHashHistory } from 'history'
-import { SpiderRoot } from '@dwalter/spider-hook'
+import { StoreProvider } from './state-store-react'
 import { Provider } from 'daggerboard'
-import { createDevMiddleware } from '@dwalter/spider-dev-middleware'
 import { DefaultThemeProvider } from './components'
 import { App } from './App'
 
@@ -12,21 +11,13 @@ const anchorElement = document.getElementById('anchor')
 
 if (anchorElement) {
   render(
-    <SpiderRoot
-      configureStore={createStore => {
-        if (process.env.NODE_ENV === 'development') {
-          return createStore(createDevMiddleware())
-        } else {
-          return createStore()
-        }
-      }}
-    >
+    <StoreProvider>
       <DefaultThemeProvider>
         <Provider history={createHashHistory()}>
           <App />
         </Provider>
       </DefaultThemeProvider>
-    </SpiderRoot>,
+    </StoreProvider>,
     anchorElement,
   )
 } else {

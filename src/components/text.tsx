@@ -9,10 +9,19 @@ export interface TextTheme {
   body: string
   button: string
   title: string
+  header: string
   display: string
 }
 
-const types = ['body', 'caption', 'display', 'title', 'button']
+type TextTypes = 'body' | 'caption' | 'display' | 'title' | 'button' | 'header'
+const types: TextTypes[] = [
+  'body',
+  'caption',
+  'display',
+  'title',
+  'button',
+  'header',
+]
 
 type TextProps = {
   className?: ClassName
@@ -21,7 +30,8 @@ type TextProps = {
   display?: boolean
   title?: boolean
   button?: boolean
-  type?: 'body' | 'caption' | 'display' | 'title' | 'button'
+  type?: TextTypes
+  header?: boolean
   children?: string
 }
 
@@ -34,6 +44,7 @@ export function Text(props: TextProps) {
     [theme.body]: type === 'body',
     [theme.caption]: type === 'caption',
     [theme.button]: type === 'button',
+    [theme.header]: type === 'header',
   })
   if (type == 'title' || type == 'display') {
     return <h1 className={className}>{props.children}</h1>
@@ -45,7 +56,7 @@ export function Text(props: TextProps) {
 const text = style({
   borderRadius: 4,
   transition: '0.2s',
-  margin: '0 12px 0',
+  margin: '0 4px 0',
   lineHeight: 1.0,
   $nest: {
     '& + &': {
@@ -80,9 +91,15 @@ const title = style({
   },
 })
 
+const header = style({
+  $nest: {
+    [`&.${text}`]: { fontSize: 24 },
+  },
+})
+
 const button = style({
   $nest: {
-    [`&.${text}`]: { fontSize: 20 },
+    [`&.${text}`]: { fontSize: 16 },
   },
 })
 
@@ -93,4 +110,5 @@ export const defaultTextTheme = {
   button,
   title,
   display,
+  header,
 }
