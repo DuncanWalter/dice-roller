@@ -24,46 +24,38 @@ interface ResponsiveProps {
 export function Responsive({ children, initialWidth = 0 }: ResponsiveProps) {
   const container = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(initialWidth)
-  const isFirstRender = useIsFirstRender()
 
   useEffect(
-    isFirstRender
-      ? () => {
-          let request = NaN
+    () => {
+      let cancelled = false
 
-          function checkSize() {
-            request = requestAnimationFrame(() => {
-              if (!container.current) {
-                checkSize()
-                return
-              }
-
-              const reportedWidth = container.current.clientWidth // / (devicePixelRatio || 1.2)
-
-              if (reportedWidth !== width) {
-                setWidth(reportedWidth)
-              }
-
-              checkSize()
-            })
+      function checkSize() {
+        requestAnimationFrame(() => {
+          if (cancelled) return
+          if (container.current) {
+            // measured in css pixels
+            setWidth(container.current.clientWidth)
           }
 
           checkSize()
+        })
+      }
 
-          return () => {
-            cancelAnimationFrame(request)
-          }
-        }
-      : noop,
-    [],
+      checkSize()
+
+      return () => {
+        cancelled = true
+      }
+    },
+    [width],
   )
 
   let child: ResponsiveCase | undefined
   if (container.current) {
-    child = Children.toArray(children)
+    child = (Children.toArray(children) as ResponsiveCase[])
       .sort((a, b) => a.props.minWidth - b.props.minWidth)
       .reverse()
-      .find(a => a.props.minWidth <= width)
+      .find((a) => a.props.minWidth <= width)
   }
 
   if (!child) return <div ref={container} />

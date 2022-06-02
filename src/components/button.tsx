@@ -11,11 +11,18 @@ export interface ButtonTheme {
   secondary: string
   danger: string
   disabled: string
+  icon: string
 }
 
-type ButtonType = 'primary' | 'secondary' | 'danger'
+type ButtonType = 'disabled' | 'primary' | 'secondary' | 'danger' | 'icon'
 
-const types: ButtonType[] = ['primary', 'secondary', 'danger']
+const types: ButtonType[] = [
+  'disabled',
+  'primary',
+  'secondary',
+  'danger',
+  'icon',
+]
 
 export interface ButtonProps {
   className?: ClassName
@@ -23,6 +30,7 @@ export interface ButtonProps {
   primary?: boolean
   secondary?: boolean
   danger?: boolean
+  icon?: boolean
   type?: ButtonType
   text?: string
   onClick?: () => unknown
@@ -43,8 +51,16 @@ export function Button(props: ButtonProps) {
         [theme.primary]: type === 'primary',
         [theme.secondary]: type === 'secondary',
         [theme.danger]: type === 'danger',
-        [theme.disabled]: props.disabled,
+        [theme.icon]: type === 'icon',
+        [theme.disabled]: type === 'disabled',
       })}
+      onKeyDown={(evt) => {
+        if (evt.key === 'Enter' && onClick && !props.disabled) {
+          onClick()
+          evt.stopPropagation()
+        }
+      }}
+      tabIndex={type !== 'disabled' && type !== 'icon' ? 0 : undefined}
     >
       <Text button>{text}</Text>
     </div>
@@ -55,10 +71,19 @@ const button = style({
   borderRadius: 4,
   color: '#ffffff',
   cursor: 'pointer',
-  padding: '8px 12px 8px',
-  margin: '0 12px 0',
+  padding: '6px',
+  margin: '0 4px 0',
   transition: '0.2s',
   textAlign: 'center',
+})
+
+const icon = style({
+  $nest: {
+    [`&.${button}`]: {
+      margin: 0,
+      padding: '4px 0 4px',
+    },
+  },
 })
 
 const disabled = style({
@@ -107,10 +132,11 @@ const secondary = style({
   $nest: {
     [`&.${button}`]: {
       color: '#222299',
+      backgroundColor: 'rgba(221, 221, 245, 0.20)',
       $nest: {
         '&:hover': {
           color: '#5555aa',
-          backgroundColor: 'rgba(221, 221, 245, 0.13)',
+          backgroundColor: 'rgba(221, 221, 245, 0.35)',
         },
       },
     },
@@ -123,4 +149,5 @@ export const defaultButtonTheme: ButtonTheme = {
   primary,
   secondary,
   danger,
+  icon,
 }

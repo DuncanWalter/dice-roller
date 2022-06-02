@@ -8,10 +8,10 @@ const VisualizerPlugin = require('webpack-visualizer-plugin')
 const AnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 function clean(...entries) {
-  return entries.filter(entry => !!entry && entry !== true)
+  return entries.filter((entry) => !!entry && entry !== true)
 }
 
-module.exports = env => createConfig(env == 'prod')
+module.exports = (env) => createConfig(env == 'prod')
 
 function createConfig(production) {
   const sourcePath = join(process.cwd(), '.', 'src')
@@ -49,28 +49,29 @@ function createConfig(production) {
                   targets: 'last 1 version, not dead, > 1% in US',
                 }),
               ),
+              plugins: [require('@babel/plugin-proposal-class-properties')],
             },
           }),
         },
-        {
-          test: /\.css$/,
-          use: [
-            production
-              ? MiniCssExtractPlugin.loader
-              : require.resolve('style-loader'),
-            {
-              loader: require.resolve('css-loader'),
-              query: {
-                modules: true,
-                sourceMap: !production,
-                importLoaders: 1,
-                localIdentName: production
-                  ? '[hash:base64:5]'
-                  : '[local]-[hash:base64:3]',
-              },
-            },
-          ],
-        },
+        // {
+        //   test: /\.css$/,
+        //   use: [
+        //     production
+        //       ? MiniCssExtractPlugin.loader
+        //       : require.resolve('style-loader'),
+        //     {
+        //       loader: require.resolve('css-loader'),
+        //       query: {
+        //         modules: true,
+        //         sourceMap: !production,
+        //         importLoaders: 1,
+        //         localIdentName: production
+        //           ? '[hash:base64:5]'
+        //           : '[local]-[hash:base64:3]',
+        //       },
+        //     },
+        //   ],
+        // },
         {
           test: /\.(png|svg|jpg|gif|ttf|woff|woff2|eot|otf)$/,
           use: [require.resolve('file-loader')],
