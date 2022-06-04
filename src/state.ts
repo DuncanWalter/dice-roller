@@ -1,5 +1,4 @@
 import { Atom, createAtom, createSelector, Peek } from './state-store'
-import {} from './state-store-react'
 import { discreteUniformVariance, normal, possibleRolls } from './stats'
 
 export type Die = {
@@ -23,10 +22,10 @@ export function rerollDie(die: Atom<Die>) {
 }
 
 export function incrementDie(die: Atom<Die>) {
-  return die.update((die) => {
+  return die.update(({ roll, faces }) => {
     return {
-      faces: die.faces,
-      roll: (die.roll % die.faces) + 1,
+      faces: faces,
+      roll: (roll % faces) + 1,
     }
   })
 }
@@ -36,7 +35,7 @@ export const clearDice = () => diceAtom.set([])
 export const getTotal = createSelector((peek) => {
   const dice = peek(diceAtom)
   let sum = 0
-  for (let die of dice) {
+  for (const die of dice) {
     sum += peek(die).roll
   }
   return sum
@@ -45,7 +44,7 @@ export const getTotal = createSelector((peek) => {
 export function getRollStats(
   peek: Peek,
   modAtom: Atom<number>,
-  diceAtom: Atom<Atom<Die>[]>,
+  // diceAtom: Atom<Atom<Die>[]>,
 ) {
   const mod = peek(modAtom)
   const dice = peek(diceAtom)
@@ -53,7 +52,7 @@ export function getRollStats(
   let variance = 0
   let diceMean = 0
   let max = mod
-  let min = mod + dice.length
+  const min = mod + dice.length
   let diceSum = 0
   for (const die of dice) {
     const { roll, faces } = peek(die)

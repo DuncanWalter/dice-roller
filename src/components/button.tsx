@@ -68,20 +68,23 @@ export function Button(props: ButtonProps) {
 }
 
 const button = style({
-  borderRadius: 4,
+  // borderRadius: '4px',
+  border: 'solid black 2px',
+  borderRadius: '9999px',
   color: '#ffffff',
   cursor: 'pointer',
-  padding: '6px',
+  padding: '6px 12px 6px',
   margin: '0 4px 0',
   transition: '0.2s',
   textAlign: 'center',
 })
 
 const icon = style({
+  border: 'none',
   $nest: {
     [`&.${button}`]: {
       margin: 0,
-      padding: '4px 0 4px',
+      padding: '6px 0 6px',
     },
   },
 })

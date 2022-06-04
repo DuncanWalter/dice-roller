@@ -3,7 +3,7 @@ export function discreteUniformVariance(realizations: number) {
 }
 
 let area = 0
-let densities = [] as number[]
+const densities = [] as number[]
 
 const cutoff = 5
 const samples = 1000

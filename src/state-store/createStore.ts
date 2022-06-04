@@ -51,6 +51,7 @@ function createRawDispatch(store: RawStore) {
     while (stack.length) {
       const assignment = stack.pop()!
       if (Array.isArray(assignment)) {
+        // eslint-disable-next-line prefer-spread
         stack.push.apply(stack, assignment)
       } else if (assignment && assignment !== true) {
         const slice = store.wrap(assignment.atom)
@@ -79,7 +80,7 @@ function createDispatch(store: Store, rawDispatch: RawDispatch) {
     actionable:
       | Assignment
       | AssignmentList
-      | ((dispatch: Dispatch, peek: Peek) => any),
+      | ((thunkDispatch: Dispatch, peek: Peek) => any),
   ): unknown {
     if (isFunction(actionable)) {
       const cache = new Map()
@@ -134,19 +135,17 @@ function createSubscribe(store: RawStore) {
     let lock = semaphores.get(rawEffect)
     if (!lock) {
       let activity = Promise.resolve<unknown>(undefined)
-      const slice = createCallbackSlice(
-        (peek: PeekSlice): undefined => {
-          const result = rawEffect(
-            (state) => peek(store.wrap(state)),
-            store.dispatch,
-          )
-          if (result && result instanceof Promise) {
-            const caughtResult = result.catch(store.handleError)
-            activity = activity.then(() => caughtResult)
-          }
-          return
-        },
-      )
+      const slice = createCallbackSlice((peek: PeekSlice): undefined => {
+        const result = rawEffect(
+          (state) => peek(store.wrap(state)),
+          store.dispatch,
+        )
+        if (result && result instanceof Promise) {
+          const caughtResult = result.catch(store.handleError)
+          activity = activity.then(() => caughtResult)
+        }
+        return
+      })
       lock = semaphore(() => {
         slice.activate(store.peek)
         return () => void activity.finally(() => slice.deactivate())

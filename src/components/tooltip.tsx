@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { useRef } from 'react'
 import { style, keyframes } from 'typestyle'
 import { useTheme } from './theme'
-import { joinNames, justifyEnd, column, alignEnd } from './styles'
+import { joinNames, justifyEnd, column } from './styles'
 import { Text } from './text'
 import { PanelContent, Panel } from './panel'
 
@@ -55,7 +55,9 @@ export function Tooltip({
       onMouseEnter={() => setActive(manual ? active : true)}
       onMouseLeave={() => setActive(manual ? active : false)}
       onClick={
-        manual && !disabled ? () => setActive(newActive => !newActive) : noop
+        manual && !disabled
+          ? () => setActive((newActive) => !newActive)
+          : undefined
       }
     >
       <div
@@ -133,5 +135,3 @@ defaultTooltipTheme.right = style({
   left: '100%',
   justifyContent: 'start',
 })
-
-function noop() {}

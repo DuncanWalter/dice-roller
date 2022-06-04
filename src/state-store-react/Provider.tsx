@@ -34,7 +34,6 @@ export function StoreProvider({
       },
     }),
 }: ProviderProps) {
-  const deps = [configureStore]
-  const store = useMemo(() => configureStore(createStore), deps)
+  const store = useMemo(() => configureStore(createStore), [configureStore])
   return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
 }

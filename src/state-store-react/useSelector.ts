@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useContext, useState, useEffect, useMemo, useRef } from 'react'
 
 import { State, Peek, createSelector, Effect } from '../state-store'

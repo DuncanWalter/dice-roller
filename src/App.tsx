@@ -17,10 +17,11 @@ import {
   justifyStart,
   row,
   flexGap,
+  flex,
 } from './components'
-import { style } from 'typestyle'
+import { cssRule, style } from 'typestyle'
 
-import { RolledDie, DieType, RollModifier, Die, totalText } from './Die'
+import { RolledDie, DieType, RollModifier, totalText } from './Die'
 import { Atom, createAtom, Dispatch, Peek } from './state-store'
 import {
   useDispatch,
@@ -69,7 +70,7 @@ const presetsAtom = createAtom<
 function createHotkeyHandler(
   dispatch: Dispatch,
   modifierAtom: Atom<number>,
-  diceAtom: Atom<Atom<Die>[]>,
+  // diceAtom: Atom<Atom<Die>[]>,
 ) {
   return function hotkeyHandler(event: KeyboardEvent) {
     if (event.target instanceof HTMLInputElement) {
@@ -132,17 +133,14 @@ function MobileApp({
   const mod = useStoreValue(modifierAtom)
   const diceFaces = usePeek(
     (peek) => peek(diceAtom).map((dieAtom) => peek(dieAtom).faces),
-    [diceAtom],
+    [],
   )
 
-  useEffect(
-    () => {
-      const callback = createHotkeyHandler(dispatch, modifierAtom, diceAtom)
-      window.addEventListener('keydown', callback)
-      return () => window.removeEventListener('keydown', callback)
-    },
-    [mod, diceFaces],
-  )
+  useEffect(() => {
+    const callback = createHotkeyHandler(dispatch, modifierAtom /*, diceAtom*/)
+    window.addEventListener('keydown', callback)
+    return () => window.removeEventListener('keydown', callback)
+  }, [mod, diceFaces, dispatch, modifierAtom])
 
   return (
     <div className={joinNames(mobileApp, column, justifyCenter, alignCenter)}>
@@ -174,6 +172,7 @@ function MobileApp({
           <RollStats modifierAtom={modifierAtom} />
           <RolledDice rollModifier={modifierAtom} />
           <div style={{ flex: 1 }} />
+          <PanelDivider flush />
           <PanelContent>
             <div className={joinNames(wrap, justifyCenter)}>
               {[4, 6, 8, 10, 12, 20].map((faces) => (
@@ -185,17 +184,18 @@ function MobileApp({
               ))}
             </div>
             <div className={joinNames(wrap, justifyCenter)}>
-              {[-1, 1, 2, 5, 10].map((mod) => (
+              {[-1, 1, 2, 5, 10].map((value) => (
                 <RollModifier
-                  key={mod}
-                  mod={mod}
+                  key={value}
+                  mod={value}
                   onClick={() =>
-                    dispatch(modifierAtom.update((last) => last + mod))
+                    dispatch(modifierAtom.update((last) => last + value))
                   }
                 />
               ))}
             </div>
           </PanelContent>
+          <PanelDivider />
           <PanelContent>
             <div className={joinNames(row, justifyCenter)}>
               <Button
@@ -275,14 +275,11 @@ function DesktopApp({
   const mod = useStoreValue(modifierAtom)
   const dice = useStoreValue(diceAtom)
 
-  useEffect(
-    () => {
-      const callback = createHotkeyHandler(dispatch, modifierAtom, diceAtom)
-      window.addEventListener('keydown', callback)
-      return () => window.removeEventListener('keydown', callback)
-    },
-    [mod],
-  )
+  useEffect(() => {
+    const callback = createHotkeyHandler(dispatch, modifierAtom /*, diceAtom*/)
+    window.addEventListener('keydown', callback)
+    return () => window.removeEventListener('keydown', callback)
+  }, [mod, dispatch, modifierAtom])
 
   const content = info ? (
     <Fragment>
@@ -319,7 +316,7 @@ function DesktopApp({
           />
         </div>
       </PanelHeader>
-      <PanelDivider />
+      <PanelDivider flush />
       <PanelContent className={joinNames(wrap, justifyCenter)}>
         {[4, 6, 8, 10, 12, 20].map((faces) => (
           <DieType
@@ -328,15 +325,17 @@ function DesktopApp({
             onClick={() => dispatch(addDieRoll(faces))}
           />
         ))}
-        {[-1, 1, 2, 5, 10].map((mod) => (
+        {[-1, 1, 2, 5, 10].map((value) => (
           <RollModifier
-            key={mod}
-            mod={mod}
-            onClick={() => dispatch(modifierAtom.update((last) => last + mod))}
+            key={value}
+            mod={value}
+            onClick={() =>
+              dispatch(modifierAtom.update((last) => last + value))
+            }
           />
         ))}
       </PanelContent>
-      <PanelDivider />
+      <PanelDivider flush={!!(dice.length || mod)} />
       <RolledDice rollModifier={modifierAtom} />
       {dice.length || mod ? <PanelDivider /> : null}
       <div style={{ flex: 1 }} />
@@ -347,15 +346,18 @@ function DesktopApp({
   return (
     <div className={joinNames(desktopApp, justifyCenter, alignStart)}>
       <Panel className={appPanel}>{content}</Panel>
-      <div className={joinNames(column)}>
-        <Panel className={sidePanel}>
+      <div
+        className={joinNames(column, flex)}
+        style={{ minWidth: '216px', maxWidth: '248px' }}
+      >
+        <Panel>
           <PanelContent>
             <Text header>Roll Stats</Text>
           </PanelContent>
           <PanelDivider />
           <RollStats modifierAtom={modifierAtom} />
         </Panel>
-        <Panel className={sidePanel}>
+        <Panel>
           <PanelContent>
             <Text header>Saved Rolls</Text>
           </PanelContent>
@@ -371,8 +373,8 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
   const dice = useStoreValue(diceAtom)
   const mod = useStoreValue(modifierAtom)
   const { percentile, min, max, mean, total } = usePeek(
-    (peek) => getRollStats(peek, modifierAtom, diceAtom),
-    [modifierAtom, diceAtom],
+    (peek) => getRollStats(peek, modifierAtom /* diceAtom*/),
+    [modifierAtom],
   )
 
   return (
@@ -380,7 +382,7 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
       <div style={{ height: '4px' }} />
       <PanelContent>
         <BulletGraph
-          backgroundColor="#aaaabb"
+          backgroundColor={cssColor(rgba(235, 239, 244))}
           color={
             percentile !== percentile
               ? '#ff0000'
@@ -402,7 +404,7 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
       </PanelContent>
       <PanelContent>
         <BulletGraph
-          backgroundColor="#aaaabb"
+          backgroundColor={cssColor(rgba(235, 239, 244))}
           color={
             percentile !== percentile
               ? '#ff0000'
@@ -451,7 +453,7 @@ function RollSummary({ rollModifier }: { rollModifier: Atom<number> }) {
         'saved-roll-presets',
         JSON.stringify(peek(presetsAtom).map((preset) => peek(preset))),
       ),
-    [presetsAtom],
+    [],
   )
 
   return (
@@ -511,7 +513,7 @@ function ResponsivePage({
     />
   )
   return (
-    <Responsive>
+    <Responsive className={outerHeight}>
       <Case
         minWidth={0}
         content={mode !== 'desktop' ? renderedMobileApp : renderedDesktopApp}
@@ -559,7 +561,7 @@ function Preset({
 
   if (editing) {
     return (
-      <div className={joinNames(justifyStart, row)}>
+      <div className={joinNames(justifyStart, row, alignCenter)}>
         <Button
           icon
           text={'✅'}
@@ -602,7 +604,7 @@ function Preset({
     }
 
     return (
-      <div className={joinNames(justifyStart, row)}>
+      <div className={joinNames(justifyStart, row, alignCenter)}>
         <Button
           icon
           text={'❌'}
@@ -654,7 +656,7 @@ function RolledDice({ rollModifier }: { rollModifier: Atom<number> }) {
     (peek) =>
       peek(rollModifier) +
       peek(diceAtom).reduce((acc, die) => acc + peek(die).roll, 0),
-    [diceAtom, rollModifier],
+    [rollModifier],
   )
 
   if (mod === 0 && !dice.length) {
@@ -678,32 +680,45 @@ function RolledDice({ rollModifier }: { rollModifier: Atom<number> }) {
   )
 }
 
-const desktopApp = style({
-  position: 'relative',
-  fontFamily: 'sans-serif',
-  minHeight: '100vh',
-  backgroundColor: 'rgb(235, 239, 244)',
-  padding: '8px',
-  boxSizing: 'border-box',
-})
-
 const appPanel = style({
   maxWidth: '584px',
   minWidth: '584px',
 })
 
-const sidePanel = style({
-  maxWidth: '236px',
-  minWidth: '200px',
+// const sidePanel = style({
+//   maxWidth: '236px',
+//   minWidth: '200px',
+// })
+
+cssRule('html', {
+  margin: 0,
+  height: ['-webkit-fill-available', '-moz-available', 'fill-available'],
+})
+
+cssRule('body, #anchor', {
+  margin: 0,
+  height: '100%',
+})
+
+const outerHeight = style({
+  height: '100%',
+})
+
+const desktopApp = style({
+  position: 'relative',
+  fontFamily: 'sans-serif',
+  backgroundColor: 'rgb(235, 239, 244)',
+  padding: '8px',
+  boxSizing: 'border-box',
+  height: '100%',
 })
 
 const mobileApp = style({
   alignItems: 'stretch',
   fontFamily: 'sans-serif',
-  minHeight: '100vh',
-  maxHeight: '100vh',
-  padding: '12px',
+  padding: '8px 8px 0',
   boxSizing: 'border-box',
+  height: '100%',
 })
 
 const wrap = style({

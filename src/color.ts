@@ -5,7 +5,7 @@ interface Color {
   a: number
 }
 
-export function rgba(r: number, g: number, b: number, a: number = 1.0): Color {
+export function rgba(r: number, g: number, b: number, a = 1.0): Color {
   return { r, g, b, a }
 }
 
@@ -43,7 +43,7 @@ export function createSpectrum(anchors: { value: number; color: Color }[]) {
   }
 }
 
-function interpolateColors(a: Color, b: Color, ratio: number = 0.5): Color {
+function interpolateColors(a: Color, b: Color, ratio = 0.5): Color {
   return {
     r: a.r + ratio * (b.r - a.r),
     g: a.g + ratio * (b.g - a.g),

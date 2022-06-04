@@ -76,6 +76,7 @@ function propsMatch(a: Record<string, any>, b: Record<string, any>) {
 /**
  * Declarative way to use React.memo
  */
+// eslint-disable-next-line react/display-name
 export const Memo = memo(
   ({ children }: { children: ReactNode | ReactNode[] }) => (
     <Fragment>{children}</Fragment>

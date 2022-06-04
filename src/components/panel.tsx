@@ -71,8 +71,9 @@ export function PanelContent(props: PanelContentProps) {
   )
 }
 
-export function PanelDivider() {
-  return <hr className={divider} />
+export function PanelDivider({ flush }: { flush?: boolean }) {
+  const { panel: theme } = useTheme()
+  return <hr className={joinNames(divider, flush && theme.flush)} />
 }
 
 const panel = style({
@@ -104,6 +105,7 @@ const flush = style({
   $nest: {
     [`&.${content}`]: { padding: '0 0 24px' },
     [`&.${panel}`]: { margin: '0' },
+    [`&.${divider}`]: { margin: '0' },
   },
 })
 
