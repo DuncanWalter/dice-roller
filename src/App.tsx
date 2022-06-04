@@ -17,8 +17,6 @@ import {
   justifyStart,
   row,
   flexGap,
-  flex,
-  noFlex,
 } from './components'
 import { style } from 'typestyle'
 
