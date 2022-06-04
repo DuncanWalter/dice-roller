@@ -9,9 +9,7 @@ export type ClassName =
   | null
   | undefined
   | { [className: string]: unknown }
-  | ClassNames
-
-interface ClassNames extends Array<ClassName | ClassNames> {}
+  | ClassName[]
 
 export function readOption<T extends string>(
   options: T[],
@@ -21,13 +19,6 @@ export function readOption<T extends string>(
   return (
     options.filter((option) => props[option] || props.type === option)[0] ||
     defaultValue
-    // .find((__v, __i, selections) => {
-    //   if (selections.length > 1) {
-    //     console.error(`Ambiguous options: ${selections}`)
-    //     return false
-    //   }
-    //   return true
-    // })
   )
 }
 
