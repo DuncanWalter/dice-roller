@@ -211,15 +211,15 @@ function MobileApp({
                 onClick={() => dispatch(mobileAtom.set('desktop'))}
               />
               <Button
-                disabled={!diceFaces.length}
-                danger={!!diceFaces.length}
-                text="(C)lear"
+                disabled={!(mod || diceFaces.length)}
+                danger={!!(mod || diceFaces.length)}
+                text="Clear"
                 onClick={() => dispatch([clearDice(), modifierAtom.set(0)])}
               />
               <Button
                 disabled={!diceFaces.length}
                 primary={!!diceFaces.length}
-                text="(R)eroll"
+                text="Reroll"
                 onClick={() => dispatch(rerollDice)}
               />
             </div>
@@ -349,7 +349,7 @@ function DesktopApp({
   return (
     <div className={joinNames(desktopApp, justifyCenter, alignStart)}>
       <Panel className={appPanel}>{content}</Panel>
-      <div className={joinNames(column, flex)}>
+      <div className={joinNames(column)}>
         <Panel className={sidePanel}>
           <PanelContent>
             <Text header>Roll Stats</Text>
@@ -371,6 +371,7 @@ function DesktopApp({
 
 function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
   const dice = useStoreValue(diceAtom)
+  const mod = useStoreValue(modifierAtom)
   const { percentile, min, max, mean, total } = usePeek(
     (peek) => getRollStats(peek, modifierAtom, diceAtom),
     [modifierAtom, diceAtom],
@@ -391,7 +392,7 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
           min={0}
           value={total}
           targetValues={
-            max === 0
+            max === mod
               ? []
               : [
                   { value: min, label: 'min' },
