@@ -32,7 +32,7 @@ type TextProps = {
   button?: boolean
   type?: TextTypes
   header?: boolean
-  children?: string
+  children?: string | Array<string | React.ReactElement>
 }
 
 export function Text(props: TextProps) {
@@ -58,11 +58,11 @@ const text = style({
   transition: '0.2s',
   margin: '0 4px 0',
   lineHeight: 1.0,
-  $nest: {
-    '& + &': {
-      marginTop: '8px',
-    },
-  },
+  // $nest: {
+  //   '& + &': {
+  //     marginTop: '8px',
+  //   },
+  // },
 })
 
 const body = style({

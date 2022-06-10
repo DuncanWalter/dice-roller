@@ -83,6 +83,10 @@ export function getRollStats(
     percentile = worseCasesCount / otherCasesCount
   }
 
+  if (percentile !== percentile) {
+    percentile = 0
+  }
+
   return {
     min,
     max,

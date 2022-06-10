@@ -5,3 +5,5 @@ build/
 !.gitignore
 !.prettierignore
 !.eslintrc.cjs
+!.firebaserc
+firebase-debug.log

@@ -79,6 +79,8 @@ function createHotkeyHandler(
       dispatch([clearDice(), modifierAtom.set(0)])
     } else if (event.key === '0') {
       dispatch(addDieRoll(10))
+    } else if (event.key === '-') {
+      dispatch(addDieRoll(12))
     } else if (event.key == 'Enter') {
       dispatch(addDieRoll(20))
     } else if (event.key === 's' || event.key === 'S') {
@@ -151,7 +153,7 @@ function MobileApp({
           <Info />
           <div style={{ flex: 1 }} />
           <PanelContent>
-            <div className={row}>
+            <div className={joinNames(row, justifyCenter)}>
               <Button
                 primary
                 text="Back"
@@ -169,11 +171,11 @@ function MobileApp({
         <Fragment>
           <PanelHeader className={justifyCenterSpecific} text="Dice Tower" />
           <PanelDivider />
-          <RollStats modifierAtom={modifierAtom} />
+          {/* <RollStats modifierAtom={modifierAtom} /> */}
           <RolledDice rollModifier={modifierAtom} />
           <div style={{ flex: 1 }} />
-          <PanelDivider flush />
-          <PanelContent>
+          <PanelDivider />
+          <PanelContent flush>
             <div className={joinNames(wrap, justifyCenter)}>
               {[4, 6, 8, 10, 12, 20].map((faces) => (
                 <DieType
@@ -182,9 +184,7 @@ function MobileApp({
                   onClick={() => dispatch(addDieRoll(faces))}
                 />
               ))}
-            </div>
-            <div className={joinNames(wrap, justifyCenter)}>
-              {[-1, 1, 2, 5, 10].map((value) => (
+              {[-1, 1, 3, 5].map((value) => (
                 <RollModifier
                   key={value}
                   mod={value}
@@ -232,28 +232,30 @@ function Info() {
   return (
     <PanelContent>
       <Text body>
-        This is a dice roller intended for d20 tabletop RPGs like D&D and
-        Pathfinder.
+        This is an{' '}
+        <a href="https://github.com/DuncanWalter/dice-roller">open source</a>{' '}
+        dice roller intended for d20 tabletop RPGs like D&D and Pathfinder.
       </Text>
       <Text body>
         Click on "d6" or hit "6" to add a six sided die to your roll. The
-        hotkeys for ten and twenty sided dice are "0" and "Enter" respectively.
+        hotkeys for ten, twelve, and twenty sided dice are "0", "-", and "Enter"
+        respectively.
       </Text>
       <Text body>
         Click on "+5" or hit "Shift + 5" to add a flat +5 modifier to your roll.
         Modifiers stack.
       </Text>
       <Text body>
-        Click on a rolled die to reroll it. To reroll all dice, click "(R)eroll"
+        Click on a rolled die to reroll it. To reroll all dice, click "Reroll"
         or hit "r".
       </Text>
       <Text body>
-        Click "(C)lear", hit the spacebar, or hit "c" to clear the current roll.
+        Click "Clear", hit the spacebar, or hit "c" to clear the current roll.
       </Text>
       <Text body>
-        Click "(S)ave" or hit "s" to save your current combination of rolled
-        dice and modifiers for reuse later. You can name saved rolls. Saved
-        rolls persist across multiple visits to this tool. This feature is only
+        Click "Save" or hit "s" to save your current combination of rolled dice
+        and modifiers for reuse later. You can name saved rolls. Saved rolls
+        persist across multiple visits to this tool. This feature is only
         available in desktop mode.
       </Text>
     </PanelContent>
@@ -316,8 +318,8 @@ function DesktopApp({
           />
         </div>
       </PanelHeader>
-      <PanelDivider flush />
-      <PanelContent className={joinNames(wrap, justifyCenter)}>
+      <PanelDivider />
+      <PanelContent flush className={joinNames(wrap, justifyCenter)}>
         {[4, 6, 8, 10, 12, 20].map((faces) => (
           <DieType
             key={faces}
@@ -325,7 +327,7 @@ function DesktopApp({
             onClick={() => dispatch(addDieRoll(faces))}
           />
         ))}
-        {[-1, 1, 2, 5, 10].map((value) => (
+        {[-1, 1, 3, 5, 10].map((value) => (
           <RollModifier
             key={value}
             mod={value}
@@ -335,7 +337,7 @@ function DesktopApp({
           />
         ))}
       </PanelContent>
-      <PanelDivider flush={!!(dice.length || mod)} />
+      <PanelDivider />
       <RolledDice rollModifier={modifierAtom} />
       {dice.length || mod ? <PanelDivider /> : null}
       <div style={{ flex: 1 }} />
@@ -348,13 +350,9 @@ function DesktopApp({
       <Panel className={appPanel}>{content}</Panel>
       <div
         className={joinNames(column, flex)}
-        style={{ minWidth: '216px', maxWidth: '248px' }}
+        style={{ minWidth: '216px', maxWidth: '264px' }}
       >
         <Panel>
-          <PanelContent>
-            <Text header>Roll Stats</Text>
-          </PanelContent>
-          <PanelDivider />
           <RollStats modifierAtom={modifierAtom} />
         </Panel>
         <Panel>
@@ -376,10 +374,22 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
     (peek) => getRollStats(peek, modifierAtom /* diceAtom*/),
     [modifierAtom],
   )
+  const roundedPercentile = Math.round(percentile * 100)
+  let extension = 'th'
+  if (roundedPercentile % 10 === 1 && roundedPercentile !== 11) {
+    extension = 'st'
+  } else if (roundedPercentile % 10 === 2 && roundedPercentile !== 12) {
+    extension = 'nd'
+  } else if (roundedPercentile % 10 === 3 && roundedPercentile !== 13) {
+    extension = 'rd'
+  }
 
   return (
     <Fragment>
-      <div style={{ height: '4px' }} />
+      <PanelContent>
+        <Text header>{`${total} Total`}</Text>
+      </PanelContent>
+      <PanelDivider flush></PanelDivider>
       <PanelContent>
         <BulletGraph
           backgroundColor={cssColor(rgba(235, 239, 244))}
@@ -388,13 +398,14 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
               ? '#ff0000'
               : cssColor(bulletSpectrum(percentile))
           }
-          max={max}
-          min={0}
+          max={Math.max(0, max)}
+          min={Math.min(0, min)}
           value={total}
           targetValues={
             max === mod
               ? []
               : [
+                  { value: 0 },
                   { value: min, label: 'min' },
                   { value: mean, label: 'mean' },
                   { value: max, label: 'max' },
@@ -403,6 +414,14 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
         />
       </PanelContent>
       <PanelContent>
+        <Text header>
+          {`${roundedPercentile}`}
+          <sup>{`${extension}`}</sup>
+          {' Percentile'}
+        </Text>
+      </PanelContent>
+      <PanelDivider flush></PanelDivider>
+      <PanelContent>
         <BulletGraph
           backgroundColor={cssColor(rgba(235, 239, 244))}
           color={
@@ -410,16 +429,16 @@ function RollStats({ modifierAtom }: { modifierAtom: Atom<number> }) {
               ? '#ff0000'
               : cssColor(bulletSpectrum(percentile))
           }
-          max={1}
+          max={100}
           min={0}
-          value={percentile !== percentile ? 0 : percentile}
+          value={percentile !== percentile ? 0 : roundedPercentile}
           targetValues={
             dice.length < 3
-              ? [{ value: 0.5, label: 'µ' }]
+              ? [{ value: 50, label: 'µ' }]
               : [
-                  { value: 0.32, label: '-1σ' },
-                  { value: 0.5, label: 'µ' },
-                  { value: 0.68, label: '1σ' },
+                  { value: 32, label: '-1σ' },
+                  { value: 50, label: 'µ' },
+                  { value: 68, label: '1σ' },
                 ]
           }
         />
@@ -462,19 +481,19 @@ function RollSummary({ rollModifier }: { rollModifier: Atom<number> }) {
         <Button
           disabled={!diceFaces.length}
           danger={!!diceFaces.length}
-          text="(C)lear"
+          text="Clear"
           onClick={() => dispatch([clearDice(), rollModifier.set(0)])}
         />
         <Button
           disabled={!diceFaces.length}
           primary={!!diceFaces.length}
-          text="(S)ave"
+          text="Save"
           onClick={() => dispatch(createPresetFromRoll(diceFaces, mod))}
         />
         <Button
           disabled={!diceFaces.length}
           primary={!!diceFaces.length}
-          text="(R)eroll"
+          text="Reroll"
           onClick={() => dispatch(rerollDice)}
         />
       </PanelContent>
@@ -483,9 +502,11 @@ function RollSummary({ rollModifier }: { rollModifier: Atom<number> }) {
 }
 
 const bulletSpectrum = createSpectrum([
-  { value: 0.0, color: rgba(255, 0, 0) },
+  { value: 0, color: rgba(255, 0, 0) },
+  { value: 0.15, color: rgba(255, 0, 0) },
   { value: 0.5, color: rgba(255, 255, 0) },
-  { value: 1.0, color: rgba(0, 255, 0) },
+  { value: 0.85, color: rgba(0, 255, 0) },
+  { value: 1, color: rgba(0, 255, 0) },
 ])
 
 function ResponsivePage({
@@ -665,7 +686,10 @@ function RolledDice({ rollModifier }: { rollModifier: Atom<number> }) {
 
   return (
     <Fragment>
-      <PanelContent className={joinNames(wrap, justifyCenter, alignCenter)}>
+      <PanelContent
+        flush
+        className={joinNames(wrap, justifyCenter, alignCenter)}
+      >
         {dice.map((dieAtom, idx) => (
           <Memo key={idx}>
             <RolledDie die={dieAtom} />
@@ -673,7 +697,7 @@ function RolledDice({ rollModifier }: { rollModifier: Atom<number> }) {
         ))}
         {mod !== 0 ? <RollModifier mod={mod} /> : null}
       </PanelContent>
-      <PanelContent className={justifyCenter}>
+      <PanelContent flush className={justifyCenter}>
         <Text title className={totalText}>{`${total}`}</Text>
       </PanelContent>
     </Fragment>
@@ -706,7 +730,7 @@ const outerHeight = style({
 
 const desktopApp = style({
   position: 'relative',
-  fontFamily: 'sans-serif',
+  fontFamily: 'Ariel, sans-serif',
   backgroundColor: 'rgb(235, 239, 244)',
   padding: '8px',
   boxSizing: 'border-box',

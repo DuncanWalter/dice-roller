@@ -15,7 +15,7 @@ module.exports = (env) => createConfig(env == 'prod')
 
 function createConfig(production) {
   const sourcePath = join(process.cwd(), '.', 'src')
-  const outPath = join(process.cwd(), '.', 'docs')
+  const outPath = join(process.cwd(), '.', 'public')
   return {
     mode: production ? 'production' : 'development',
     context: sourcePath,

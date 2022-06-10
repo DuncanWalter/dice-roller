@@ -108,6 +108,8 @@ const disabled = style({
 const primary = style({
   $nest: {
     [`&.${button}`]: {
+      // textShadow:
+      //   '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
       backgroundColor: 'rgb(94, 135, 201)',
       $nest: {
         '&:hover': {
@@ -121,6 +123,8 @@ const primary = style({
 const danger = style({
   $nest: {
     [`&.${button}`]: {
+      // textShadow:
+      //   '1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black',
       backgroundColor: 'rgb(221, 72, 56)',
       $nest: {
         '&:hover': {

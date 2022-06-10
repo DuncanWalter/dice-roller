@@ -92,13 +92,10 @@ export function RollModifier({
 const diceSpectrum = createSpectrum([
   { value: 0, color: rgba(0, 0, 0) },
   { value: 4, color: rgba(69, 36, 65) },
-
   { value: 6, color: rgba(205, 17, 47) },
   { value: 8, color: rgba(255, 125, 51) },
-
   { value: 10, color: rgba(255, 225, 35) },
   { value: 12, color: rgba(255, 255, 175) },
-
   { value: 20, color: rgba(163, 255, 247) },
 ])
 
@@ -125,7 +122,7 @@ const dieStyle = style({
   borderRadius: '35px',
   boxSizing: 'border-box',
   padding: '0',
-  margin: '16px 8px 0',
+  margin: '8px',
   cursor: 'pointer',
   userSelect: 'none',
   border: 'solid 2px #18181d',
@@ -146,7 +143,7 @@ const animateDie = style({
   $nest: {
     [`&.${dieStyle}`]: {
       animationName: keyframes({
-        '0%': { margin: '-35px', opacity: 0 },
+        '0%': { margin: '8px -35px 8px', opacity: 0 },
         '100%': { margin: '8px', opacity: 1.0 },
       }),
       animationDuration: '0.3s',

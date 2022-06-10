@@ -79,18 +79,18 @@ export function PanelDivider({ flush }: { flush?: boolean }) {
 const panel = style({
   borderRadius: 4,
   display: 'inline-block',
-  padding: '16px 8px 0',
+  padding: '8px',
   margin: '8px',
   backgroundColor: '#ffffff',
   boxShadow: '0 1px 2px 1px rgba(0, 0, 0, 0.18)',
 })
 
 const header = style({
-  padding: '0 8px 16px',
+  padding: '8px',
 })
 
 const content = style({
-  padding: '0 8px 16px',
+  padding: '8px',
 })
 
 const divider = style({
@@ -98,12 +98,12 @@ const divider = style({
   height: '2px',
   border: 'none',
   backgroundColor: 'rgba(0, 0, 0, 0.12)',
-  margin: '0 0 16px',
+  margin: '8px 0 8px',
 })
 
 const flush = style({
   $nest: {
-    [`&.${content}`]: { padding: '0 0 24px' },
+    [`&.${content}`]: { padding: '0' },
     [`&.${panel}`]: { margin: '0' },
     [`&.${divider}`]: { margin: '0' },
   },
